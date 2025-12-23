@@ -1,3 +1,6 @@
+*.bat
+db-data
+
 # Logs
 logs
 *.log
