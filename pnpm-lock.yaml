@@ -11,9 +11,9 @@ importers:
       '@fastify/jwt':
         specifier: ^10.0.0
         version: 10.0.0
-      '@prisma/client':
-        specifier: ^7.2.0
-        version: 7.2.0(typescript@5.9.3)
+      '@fastify/postgres':
+        specifier: ^6.0.2
+        version: 6.0.2(pg@8.16.3)
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
@@ -233,6 +233,11 @@ packages:
   '@fastify/merge-json-schemas@0.2.1':
     resolution: {integrity: sha512-OA3KGBCy6KtIvLf8DINC5880o5iBlDX4SxzLQS8HorJAbqluzLRn80UXU0bxZn7UOFhFgpRJDasfwn9nG4FG4A==}
 
+  '@fastify/postgres@6.0.2':
+    resolution: {integrity: sha512-b8JKy/aNcz/iKzFEe0Qwx7xkk2lmcQXxylg6jOctYCpNW/shSJZunIhMrTI3J5GQQubtMmRGXEiwfKdq5h4LNQ==}
+    peerDependencies:
+      pg: '>=6.0.0'
+
   '@fastify/proxy-addr@5.1.0':
     resolution: {integrity: sha512-INS+6gh91cLUjB+PVHfu1UqcB76Sqtpyp7bnL+FYojhjygvOPA9ctiD/JDKsyD9Xgu4hUhCSJBPig/w7duNajw==}
 
@@ -264,21 +269,6 @@ packages:
 
   '@pinojs/redact@0.4.0':
     resolution: {integrity: sha512-k2ENnmBugE/rzQfEcdWHcCY+/FM3VLzH9cYEsbdsoqrvzAKRhUZeRNhAZvB8OitQJ1TBed3yqWtdjzS6wJKBwg==}
-
-  '@prisma/client-runtime-utils@7.2.0':
-    resolution: {integrity: sha512-dn7oB53v0tqkB0wBdMuTNFNPdEbfICEUe82Tn9FoKAhJCUkDH+fmyEp0ClciGh+9Hp2Tuu2K52kth2MTLstvmA==}
-
-  '@prisma/client@7.2.0':
-    resolution: {integrity: sha512-JdLF8lWZ+LjKGKpBqyAlenxd/kXjd1Abf/xK+6vUA7R7L2Suo6AFTHFRpPSdAKCan9wzdFApsUpSa/F6+t1AtA==}
-    engines: {node: ^20.19 || ^22.12 || >=24.0}
-    peerDependencies:
-      prisma: '*'
-      typescript: '>=5.4.0'
-    peerDependenciesMeta:
-      prisma:
-        optional: true
-      typescript:
-        optional: true
 
   '@tsconfig/node10@1.0.12':
     resolution: {integrity: sha512-UCYBaeFvM11aU2y3YPZ//O5Rhj+xKyzy7mvcIoAjASbigy8mHMryP5cK7dgjlz2hWxh1g5pLw084E0a/wlUSFQ==}
@@ -1057,6 +1047,11 @@ snapshots:
     dependencies:
       dequal: 2.0.3
 
+  '@fastify/postgres@6.0.2(pg@8.16.3)':
+    dependencies:
+      fastify-plugin: 5.1.0
+      pg: 8.16.3
+
   '@fastify/proxy-addr@5.1.0':
     dependencies:
       '@fastify/forwarded': 3.0.1
@@ -1109,14 +1104,6 @@ snapshots:
   '@lukeed/ms@2.0.2': {}
 
   '@pinojs/redact@0.4.0': {}
-
-  '@prisma/client-runtime-utils@7.2.0': {}
-
-  '@prisma/client@7.2.0(typescript@5.9.3)':
-    dependencies:
-      '@prisma/client-runtime-utils': 7.2.0
-    optionalDependencies:
-      typescript: 5.9.3
 
   '@tsconfig/node10@1.0.12': {}
 
