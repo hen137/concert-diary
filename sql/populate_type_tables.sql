@@ -1,0 +1,9 @@
+-- role types
+-- hash algorithm types
+-- relationship types
+-- series types
+-- venue types
+-- event types
+-- artist types
+-- genre types
+-- subgenre types
