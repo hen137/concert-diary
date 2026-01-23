@@ -1,5 +1,6 @@
 *.bat
-db-data
+pgdb-data
+pgadmin-data
 
 # Logs
 logs
