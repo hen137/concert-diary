@@ -1,5 +1,3 @@
-import type Ky
-
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import Fastify from 'fastify';
@@ -19,7 +17,6 @@ declare module 'fastify' {
             POSTGRES_DB: string,
             POSTGRES_PORT: number
         },
-        // db: typeof 
     }
 }
 
@@ -60,14 +57,15 @@ async function main(){
     });
     
     //Custom Plugins
+    // postgres database plugin using Kysely and pg
+    server.register(pgDatabase, {});
+
     // using autoload to register all routes from the routes directory
     server.register(autoLoad, {
         dir: join(dirname(fileURLToPath(import.meta.url)), 'routes'), // points to the routes directory
-        routeParams: true, // enaple path paramaters 
+        routeParams: true, // enable path paramaters 
         dirNameRoutePrefix: true // uses directory structure as route prefixes
     });
-
-    server.register(pgDatabase, {});
 
     //Decorators
 
