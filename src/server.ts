@@ -1,22 +1,25 @@
+import type Ky
+
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import Fastify from 'fastify';
 import fastifyEnv from '@fastify/env';
 import autoLoad from '@fastify/autoload';
 import { file, number } from 'zod';
-import { db } from './database/db.js';
+import pgDatabase from './database/database.js';
 
 // uses the decleration merging technique to extend FastifyInstance to include the config and db object types
 declare module 'fastify' {
     interface FastifyInstance {
         env: {
             PORT: number,
+            POSTGRES_HOST: string,
             POSTGRES_USER: string,
             POSTGRES_PASSWORD: string,
             POSTGRES_DB: string,
             POSTGRES_PORT: number
         },
-        db: typeof db
+        // db: typeof 
     }
 }
 
@@ -32,10 +35,13 @@ async function main(){
         confKey: 'env',
         schema: {
             type: 'object',
-            required: ['PORT', 'POSTGRES_DB', 'POSTGRES_USER', 'POSTGRES_PASSWORD'],
+            required: ['PORT', 'POSTGRES_HOST', 'POSTGRES_DB', 'POSTGRES_USER', 'POSTGRES_PASSWORD'],
             properties: {
                 PORT: {
                     type: 'number',
+                },
+                POSTGRES_HOST:{
+                    type: 'string'
                 },
                 POSTGRES_DB: {
                     type: 'string',
@@ -61,8 +67,9 @@ async function main(){
         dirNameRoutePrefix: true // uses directory structure as route prefixes
     });
 
+    server.register(pgDatabase, {});
+
     //Decorators
-    server.decorate('db', db);
 
     // Hooks
 
