@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import Fastify from 'fastify';
 import fastifyEnv from '@fastify/env';
 import autoLoad from '@fastify/autoload';
-import { serializerCompiler, validatorCompiler,  } from 'fastify-type-provider-zod';
+import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
 import pgDatabase from './plugins/database.js';
 
 // uses the decleration merging technique to extend FastifyInstance to include the config and db object types
