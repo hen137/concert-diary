@@ -8,8 +8,9 @@ export default async function userRoutes(server: FastifyInstance){
             const userAccounts = await server.db.selectFrom('user_accounts').selectAll().execute()
             const userProfiles = await server.db.selectFrom('user_profiles').selectAll().execute()
             return {
-                accounts: userAccounts,
-                profiles: userProfiles
+                // hello: 'world'
+                accounts: 'hello',
+                profiles: 'world'
             }
         }
     )
