@@ -1,4 +1,4 @@
-import type { serializerCompiler, validatorCompiler, ZodTypeProvider } from 'fastify-type-provider-zod';
+import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
