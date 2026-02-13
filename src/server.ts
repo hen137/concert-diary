@@ -1,10 +1,12 @@
+import type { serializerCompiler, validatorCompiler, ZodTypeProvider } from 'fastify-type-provider-zod';
+
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import Fastify from 'fastify';
 import fastifyEnv from '@fastify/env';
 import autoLoad from '@fastify/autoload';
-import { file, number } from 'zod';
-import pgDatabase from './database/database.js';
+import { serializerCompiler, validatorCompiler,  } from 'fastify-type-provider-zod';
+import pgDatabase from './plugins/database.js';
 
 // uses the decleration merging technique to extend FastifyInstance to include the config and db object types
 declare module 'fastify' {
@@ -23,7 +25,10 @@ declare module 'fastify' {
 // the server object
 const server = Fastify({
     logger: true,
-});
+}).withTypeProvider<ZodTypeProvider>();
+
+server.setValidatorCompiler(validatorCompiler);
+server.setSerializerCompiler(serializerCompiler);
 
 async function main(){
     // Fastify Plugins
@@ -58,10 +63,10 @@ async function main(){
     
     //Custom Plugins
     // postgres database plugin using Kysely and pg
-    server.register(pgDatabase, {});
+    await server.register(pgDatabase, {});
 
     // using autoload to register all routes from the routes directory
-    server.register(autoLoad, {
+    await server.register(autoLoad, {
         dir: join(dirname(fileURLToPath(import.meta.url)), 'routes'), // points to the routes directory
         routeParams: true, // enable path paramaters 
         dirNameRoutePrefix: true // uses directory structure as route prefixes
