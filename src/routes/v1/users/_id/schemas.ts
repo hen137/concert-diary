@@ -1,26 +1,27 @@
 export const getUserByIdSchema = {
-    body: {
-        type: 'object',
-        properties: {
-            foo: 'bar'
-        }
-    },
+    // body: {
+    //     type: 'object',
+    //     properties: {
+    //         foo: 'bar'
+    //     }
+    // },
     querystring: {
         type: 'object',
+        required: [],
         properties: {
-            foo: 'bar'
+            // apikey: { type: 'string' }
         }
     },
     params: {
         type: 'object',
         properties: {
-            foo: 'bar'
+            // id: { type: 'string' }
         }
     },
     headers: {
         type: 'object',
         properties: {
-            foo: 'bar'
+            // foo: 'bar'
         }
     },
     response: {
