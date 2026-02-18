@@ -32,6 +32,9 @@
     // "noFallthroughCasesInSwitch": true,
     // "noPropertyAccessFromIndexSignature": true,
 
+    "moduleResolution": "node16",
+    "esModuleInterop": true,
+
     // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
