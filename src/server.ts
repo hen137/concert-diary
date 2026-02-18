@@ -22,15 +22,23 @@ declare module 'fastify' {
     }
 }
 
-// the server object, modifed to use the ZodTypeProvider for schema validation, serialization and type inference in routes
-const server = Fastify({
-    logger: true,
-}).withTypeProvider<ZodTypeProvider>();
+export function buildServer(options: FastifyServerOptions = {}) {
+    // the server object, modifed to use the ZodTypeProvider for schema validation, serialization and type inference in routes
+    const server = Fastify({
+        ...options
+    }).withTypeProvider<ZodTypeProvider>();
+    
+    server.setValidatorCompiler(validatorCompiler);
+    server.setSerializerCompiler(serializerCompiler);
 
-server.setValidatorCompiler(validatorCompiler);
-server.setSerializerCompiler(serializerCompiler);
+    return server;
+}
 
 async function main(){
+    const server = buildServer({
+        logger: true
+    });
+
     // Fastify Plugins
     // using fastify-env to load & validate env variables
     await server.register(fastifyEnv, {
