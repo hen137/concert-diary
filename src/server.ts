@@ -1,4 +1,4 @@
-import type { FastifyServerOptions } from 'fastify';
+import type { FastifyInstance, FastifyServerOptions } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
 import { dirname, join } from 'path';
@@ -23,7 +23,7 @@ declare module 'fastify' {
     }
 }
 
-export function buildServer(options: FastifyServerOptions = {}) {
+export async function buildServer(options: FastifyServerOptions): Promise<FastifyInstance> {
     // the server object, modifed to use the ZodTypeProvider for schema validation, serialization and type inference in routes
     const server = Fastify({
         ...options
@@ -31,14 +31,6 @@ export function buildServer(options: FastifyServerOptions = {}) {
     
     server.setValidatorCompiler(validatorCompiler);
     server.setSerializerCompiler(serializerCompiler);
-
-    return server;
-}
-
-async function main(){
-    const server = buildServer({
-        logger: true
-    });
 
     // Fastify Plugins
     // using fastify-env to load & validate env variables
@@ -73,19 +65,29 @@ async function main(){
     //Custom Plugins
     // postgres database plugin using Kysely and pg
     await server.register(pgDatabase, {});
-
+    
     // using autoload to register all routes from the routes directory
     await server.register(autoLoad, {
         dir: join(dirname(fileURLToPath(import.meta.url)), 'routes'), // points to the routes directory
         routeParams: true, // enable path paramaters 
         dirNameRoutePrefix: true // uses directory structure as route prefixes
     });
-
+    
     //Decorators
-
+    
     // Hooks
-
+    
     // Services
+
+
+    return server;
+}
+
+async function main(){
+    const server = await buildServer({
+        logger: true
+    });
+
     
     await server.listen({
         port: server.env.PORT, 
