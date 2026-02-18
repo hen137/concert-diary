@@ -1,7 +1,7 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { getUserByIdSchema } from "./schemas.js";
  
-export default async function userRoutes(server: FastifyInstance){
+export default async function userRoutes(server: FastifyInstance) {
     server.get(
         '', { schema: getUserByIdSchema }, 
         async (request: FastifyRequest, response: FastifyReply) => {
