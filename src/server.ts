@@ -1,3 +1,4 @@
+import type { FastifyServerOptions } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
 import { dirname, join } from 'path';
