@@ -22,7 +22,7 @@ declare module 'fastify' {
     }
 }
 
-// the server object
+// the server object, modifed to use the ZodTypeProvider for schema validation, serialization and type inference in routes
 const server = Fastify({
     logger: true,
 }).withTypeProvider<ZodTypeProvider>();
@@ -78,12 +78,18 @@ async function main(){
 
     // Services
     
-    try {
-        await server.listen({port: server.env.PORT, host: '0.0.0.0'});
-    } catch(e) {
-        console.error(e);
+    await server.listen({
+        port: server.env.PORT, 
+        host: '0.0.0.0',
+        listenTextResolver: (address) => `Server listening on ${address}`
+    })
+    .then(() => {
+        
+    })
+    .catch((error) => {
+        console.error('Error starting server:', error);
         process.exit(1);
-    }
+    });
 }
 
 main();
