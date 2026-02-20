@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch --env-file=.env ./src/server.ts",
-    "gen:db-types": "kysely-codegen --dialect postgres --out-file ./src/database/database.d.ts",
+    "gen:db-types": "kysely-codegen --dialect postgres --out-file ./src/types/database.d.ts",
     "seed": "tsx --env-file=.env ./db_seed/seed.ts"
   },
   "keywords": [],
