@@ -16,7 +16,7 @@ export const updateSeries = async (request: FastifyRequest, response: FastifyRep
 
 }
 
-export const deleteSeries = async (request: FastifyRequest, response: FastifyReply) => {
+export const archiveSeries = async (request: FastifyRequest, response: FastifyReply) => {
 
 }
 

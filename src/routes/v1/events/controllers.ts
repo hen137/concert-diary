@@ -16,7 +16,7 @@ export const updateEvent = async (request: FastifyRequest, response: FastifyRepl
 
 }
 
-export const deleteEvent = async (request: FastifyRequest, response: FastifyReply) => {
+export const archiveEvent = async (request: FastifyRequest, response: FastifyReply) => {
 
 }
 

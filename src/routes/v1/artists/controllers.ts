@@ -16,7 +16,7 @@ export const updateArtist = async (request: FastifyRequest, response: FastifyRep
 
 }
 
-export const deleteArtist = async (request: FastifyRequest, response: FastifyReply) => {
+export const archiveArtist = async (request: FastifyRequest, response: FastifyReply) => {
 
 }
 
