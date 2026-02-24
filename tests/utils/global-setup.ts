@@ -8,7 +8,7 @@ export default async () => {
     console.log('Setting up test environment...');
 
     // Inject base environment variables
-    dotenv.config({ path: path.resolve(__dirname, '../env/.env') });
+    dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
     // Start a PostgreSQL container instance
     console.log('Starting PostgreSQL container...');

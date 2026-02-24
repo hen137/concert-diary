@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 
+import { beforeAll, afterAll } from '@jest/globals';
 import { buildServer } from '../../src/server.js';
 
 /**
