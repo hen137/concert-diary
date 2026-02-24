@@ -1,14 +1,20 @@
-import { PostgreSqlContainer } from '@testcontainers/postgresql';
+import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 import { execSync } from 'child_process';
 import dotenv from 'dotenv';
+import { dirname } from 'path';
 import path from 'path';
+import { fileURLToPath } from 'url';
 // import 'tsconfig-paths/register';
+
+declare global {
+    var __TESTCONTAINER__: StartedPostgreSqlContainer;
+}
 
 export default async () => {
     console.log('Setting up test environment...');
 
     // Inject base environment variables
-    dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+    dotenv.config({ path: path.resolve(dirname(fileURLToPath(import.meta.url)), '../../.env') });
 
     // Start a PostgreSQL container instance
     console.log('Starting PostgreSQL container...');
@@ -38,5 +44,5 @@ export default async () => {
     console.log('Database is ready.');
 
     // Store the container instance in a global variable to access it in the teardown script
-    (global as any).__TESTCONTAINER__ = container;
+    globalThis.__TESTCONTAINER__ = container;
 };
