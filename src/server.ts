@@ -1,106 +1,79 @@
-import type { FastifyInstance, FastifyServerOptions } from 'fastify';
+import type { FastifyServerOptions } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import Fastify from 'fastify';
-import fastifyEnv from '@fastify/env';
 import autoLoad from '@fastify/autoload';
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
-import pgDatabase from './plugins/database.js';
 
-// uses the decleration merging technique to extend FastifyInstance to include the config object type
-declare module 'fastify' {
-    interface FastifyInstance {
-        env: {
-            PORT: number,
-            POSTGRES_HOST: string,
-            POSTGRES_USER: string,
-            POSTGRES_PASSWORD: string,
-            POSTGRES_DB: string,
-            POSTGRES_PORT: number
-        },
-    }
-}
-
-export async function buildServer(options: FastifyServerOptions): Promise<FastifyInstance> {
+export async function buildServer(options: FastifyServerOptions) {
     // the server object, modifed to use the ZodTypeProvider for schema validation, serialization and type inference in routes
     const server = Fastify({
+        logger: true,
+        // generates a random 10 character string ensuring unique request ids
+        genReqId(_req) {
+            return Math.random().toString(36).substring(2, 12);
+        },
         ...options
     }).withTypeProvider<ZodTypeProvider>();
-    
+
     server.setValidatorCompiler(validatorCompiler);
     server.setSerializerCompiler(serializerCompiler);
 
-    // Fastify Plugins
-    // using fastify-env to load & validate env variables
-    await server.register(fastifyEnv, {
-        confKey: 'env',
-        schema: {
-            type: 'object',
-            required: ['PORT', 'POSTGRES_HOST', 'POSTGRES_DB', 'POSTGRES_USER', 'POSTGRES_PASSWORD'],
-            properties: {
-                PORT: {
-                    type: 'number',
-                },
-                POSTGRES_HOST:{
-                    type: 'string'
-                },
-                POSTGRES_DB: {
-                    type: 'string',
-                },
-                POSTGRES_USER: {
-                    type: 'string',
-                },
-                POSTGRES_PASSWORD: {
-                    type: 'string',
-                },
-                POSTGRES_PORT: {
-                    type: 'number',
-                },
-            },
-        },
-    });
-    
-    //Custom Plugins
-    // postgres database plugin using Kysely and pg
-    await server.register(pgDatabase, {});
-    
-    // using autoload to register all routes from the routes directory
+    // Plugins
     await server.register(autoLoad, {
-        dir: join(dirname(fileURLToPath(import.meta.url)), 'routes'), // points to the routes directory
+        dir: join(dirname(fileURLToPath(import.meta.url)), 'plugins'),
+        matchFilter: (path) => path.includes('plugin')
+    })
+        .after(error => {
+            if (error) console.log('Error registering plugins:\n', error);
+            else console.log('Plugins registered successfully');
+        });
+
+    // Routes
+    await server.register(autoLoad, {
+        dir: join(dirname(fileURLToPath(import.meta.url)), 'routes'),
         routeParams: true, // enable path paramaters 
         dirNameRoutePrefix: true // uses directory structure as route prefixes
-    });
-    
-    //Decorators
-    
-    // Hooks
-    
-    // Services
+    })
+        .after(error => {
+            if (error) console.log('Error registering routes:\n', error);
+            else console.log('Routes registered successfully')
+        });
 
+    //Decorators
+
+    // Hooks
+    await server.register(autoLoad, {
+        dir: join(dirname(fileURLToPath(import.meta.url)), 'hooks'),
+        matchFilter: (path) => path.includes('hook') // only load files that end with .hook.js
+    })
+        .after(error => {
+            if (error) console.log('Error registering hooks:\n', error);
+            else console.log('Hooks registered successfully')
+        });
+
+    // Services
 
     return server;
 }
 
-async function main(){
-    const server = await buildServer({
-        logger: true
-    });
+async function main() {
+    const server = await buildServer({});
 
-    
     await server.listen({
-        port: server.env.PORT, 
+        port: server.env.PORT,
         host: '0.0.0.0',
         listenTextResolver: (address) => `Server listening on ${address}`
     })
-    .then(() => {
-        
-    })
-    .catch((error) => {
-        console.error('Error starting server:', error);
-        process.exit(1);
-    });
+        .then(() => {
+
+        })
+        .catch((error) => {
+            console.error('Error starting server:', error);
+            process.exit(1);
+        });
 }
 
 main();

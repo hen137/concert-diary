@@ -1,4 +1,4 @@
-import type { FastifyInstance } from "fastify";
+import type { FastifyInstance, FastifyPluginOptions } from "fastify";
 import type { DB } from "../types/database.js";
 
 import fp from "fastify-plugin";
@@ -11,8 +11,9 @@ declare module 'fastify' {
     }
 }
 
-function pgDatabase(server: FastifyInstance, options: Object, done: Function) {
-    server.decorate('db', new Kysely<DB>({
+async function pgDatabase(server: FastifyInstance, options: FastifyPluginOptions) {
+    // TODO: add error handling for database connection issues, and maybe a retry mechanism
+    const db = new Kysely<DB>({
         dialect: new PostgresDialect({
             pool: new Pool({
                 host: server.env.POSTGRES_HOST,
@@ -23,13 +24,19 @@ function pgDatabase(server: FastifyInstance, options: Object, done: Function) {
             })
         }),
         plugins: [],
-    }));
-    
+    })
+
+    // niave connection test
+    await db.selectFrom('user_accounts').execute()
+
+    server.decorate('db', db);
+
     server.addHook('onClose', async (server) => {
         await server.db.destroy();
     });
-
-    done();
 }
 
-export default fp(pgDatabase)
+export default fp(pgDatabase, {
+    name: 'pg-database',
+    dependencies: ['env']
+})
