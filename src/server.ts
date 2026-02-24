@@ -7,7 +7,7 @@ import Fastify from 'fastify';
 import autoLoad from '@fastify/autoload';
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
 
-export async function buildServer(options: FastifyServerOptions) {
+export function buildServer(options: FastifyServerOptions) {
     // the server object, modifed to use the ZodTypeProvider for schema validation, serialization and type inference in routes
     const server = Fastify({
         logger: true,
@@ -58,22 +58,3 @@ export async function buildServer(options: FastifyServerOptions) {
 
     return server;
 }
-
-async function main() {
-    const server = await buildServer({});
-
-    await server.listen({
-        port: server.env.PORT,
-        host: '0.0.0.0',
-        listenTextResolver: (address) => `Server listening on ${address}`
-    })
-        .then(() => {
-
-        })
-        .catch((error) => {
-            console.error('Error starting server:', error);
-            process.exit(1);
-        });
-}
-
-main();
