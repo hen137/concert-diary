@@ -22,7 +22,7 @@ export async function buildServer(options: FastifyServerOptions) {
     server.setSerializerCompiler(serializerCompiler);
 
     // Plugins
-    await server.register(autoLoad, {
+    server.register(autoLoad, {
         dir: join(dirname(fileURLToPath(import.meta.url)), 'plugins'),
         matchFilter: (path) => path.includes('plugin')
     })
@@ -32,7 +32,7 @@ export async function buildServer(options: FastifyServerOptions) {
         });
 
     // Routes
-    await server.register(autoLoad, {
+    server.register(autoLoad, {
         dir: join(dirname(fileURLToPath(import.meta.url)), 'routes'),
         routeParams: true, // enable path paramaters 
         dirNameRoutePrefix: true // uses directory structure as route prefixes
@@ -45,7 +45,7 @@ export async function buildServer(options: FastifyServerOptions) {
     //Decorators
 
     // Hooks
-    await server.register(autoLoad, {
+    server.register(autoLoad, {
         dir: join(dirname(fileURLToPath(import.meta.url)), 'hooks'),
         matchFilter: (path) => path.includes('hook') // only load files that end with .hook.js
     })
