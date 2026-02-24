@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "jest --config=config.json",
+    "test": "jest --config=tests/jest.config.ts",
     "dev": "tsx watch --env-file=.env ./src/index.ts",
     "gen:db-types": "kysely-codegen --dialect postgres --out-file ./src/types/database.d.ts",
     "seed": "tsx --env-file=.env ./db_seed/seed.ts"
