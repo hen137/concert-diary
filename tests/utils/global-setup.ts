@@ -37,7 +37,6 @@ export default async () => {
     });
 
     // Run database migrations and seeding
-    // Kysely is used as an example here; you can replace it with your ORM or migration tool
     console.log('Running database migrations and seeding...');
     const kyselyPath = './node_modules/.bin/kysely';
     execSync(`${kyselyPath} migrate:latest && ${kyselyPath} seed:run`);

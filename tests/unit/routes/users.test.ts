@@ -6,7 +6,9 @@ describe('User Route Tests', () => {
     describe('/users', () => {
         describe('GET', () => {
             describe('Positive Cases', () => {
-                //tests
+                test('Should return a list of users', () => {
+                    expect(true).toBe(true); // Placeholder test
+                })
             })
 
             describe('Negative Cases', () => {
