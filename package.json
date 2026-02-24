@@ -2,12 +2,13 @@
   "name": "concert-diary",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "jest --config=tests/jest.config.ts",
-    "dev": "tsx watch --env-file=.env ./src/index.ts",
+    "test1": "jest --config=jest.config.ts",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --env-file=./env/.env.test",
+    "dev": "tsx watch --env-file=./env/.env.dev ./src/index.ts",
     "gen:db-types": "kysely-codegen --dialect postgres --out-file ./src/types/database.d.ts",
-    "seed": "tsx --env-file=.env ./db_seed/seed.ts"
+    "seed": "tsx --env-file=./env/.env.seed ./db_seed/seed.ts"
   },
   "keywords": [],
   "author": "",

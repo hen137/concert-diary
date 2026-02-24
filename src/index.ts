@@ -3,13 +3,13 @@ import { buildServer } from "./server.js";
 const server = buildServer({})
 
 await server.listen({
-    port: server.env.PORT,
-    host: '0.0.0.0',
+    port: process.env.PORT,
+    host: process.env.POSTGRES_HOST,
     listenTextResolver: (address) => `Server listening on ${address}`
 })
-    .then(() => {
+    // .then(() => {
 
-    })
+    // })
     .catch((error) => {
         console.error('Error starting server:', error);
         process.exit(1);
