@@ -1,36 +1,32 @@
-export const getUserByIdSchema = {
-    // body: {
-    //     type: 'object',
-    //     properties: {
-    //         foo: 'bar'
-    //     }
-    // },
-    querystring: {
-        type: 'object',
-        required: [],
-        properties: {
-            // apikey: { type: 'string' }
-        }
-    },
-    params: {
-        type: 'object',
-        properties: {
-            // id: { type: 'string' }
-        }
-    },
-    headers: {
-        type: 'object',
-        properties: {
-            // foo: 'bar'
-        }
-    },
-    response: {
-        200: {
-            type: 'object',
-            properties: {
-                hello: { type: 'string' }
-            }
-        }, 
+import { z } from "zod"
 
+export const getUserSchema = {
+    // body: z.object({
+
+    // }),
+    querystring: z.object({
+
+    }),
+    params: z.object({
+        // id: z.string()
+    }),
+    headers: z.object({
+
+    }),
+    response: {
+        200: z.object({
+            accounts: z.array(z.object({
+                id: z.string(),
+                email: z.string(),
+                created_at: z.string(),
+                updated_at: z.string(),
+            })),
+            profiles: z.array(z.object({
+                id: z.string(),
+                user_id: z.string(),
+                created_at: z.string(),
+                updated_at: z.string(),
+            }))
+        }), 
     }
 }

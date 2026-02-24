@@ -16,7 +16,7 @@ export const updateReview = async (request: FastifyRequest, response: FastifyRep
 
 }
 
-export const deleteReview = async (request: FastifyRequest, response: FastifyReply) => {
+export const archiveReview = async (request: FastifyRequest, response: FastifyReply) => {
 
 }
 
