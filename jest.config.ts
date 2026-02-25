@@ -9,12 +9,10 @@ const config: Config = {
   testEnvironment: 'node',
 
   globalSetup: '<rootDir>/tests/utils/global-setup.ts',
-   globalTeardown: "<rootDir>/tests/utils/global-teardown.ts",
+  globalTeardown: "<rootDir>/tests/utils/global-teardown.ts",
   globals: {
-    // 'ts-jest': {
-    //   tsconfig: 'tsconfig.json',
-    // },
-    __TESTCONTAINER__: null, // This will hold the PostgreSQL container instance
+    __TESTCONTAINER__: null, // PostgreSQL container instance
+    __DATABASE__: null, // Kysely database instance
   },
   // setupFilesAfterEnv: ['<rootDir>/tests/utils/global-setup.ts'], 
 };

@@ -1,13 +1,13 @@
+import type { DB } from "../../src/types/database.js";
+
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
-import { execSync } from 'child_process';
-// import dotenv from 'dotenv';
-// import { dirname } from 'path';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-// import 'tsconfig-paths/register';
+// import { execSync } from 'child_process';
+import { Pool } from 'pg';
+import { Kysely, PostgresDialect } from 'kysely';
 
 declare global {
     var __TESTCONTAINER__: StartedPostgreSqlContainer;
+    var __DATABASE__: Kysely<DB>;
 }
 
 export default async () => {
@@ -45,4 +45,23 @@ export default async () => {
 
     // Store the container instance in a global variable to access it in the teardown script
     globalThis.__TESTCONTAINER__ = container;
+
+    // Global Database
+
+    const dialect =  new PostgresDialect({
+        pool: new Pool({
+            host: process.env.POSTGRES_HOST,
+            port: process.env.POSTGRES_PORT ? parseInt(process.env.POSTGRES_PORT, 10) : 5432,
+            user: process.env.POSTGRES_USER,
+            password: process.env.POSTGRES_PASSWORD,
+            database: process.env.POSTGRES_DB
+        })
+    })
+
+    const db = new Kysely<DB>({
+        dialect,
+        plugins: [],
+    })
+
+    globalThis.__DATABASE__ = db;
 };
