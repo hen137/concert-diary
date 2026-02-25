@@ -12,7 +12,7 @@ const dialect =  new PostgresDialect({
         database: process.env.POSTGRES_DB
     })
 })
- 
+
 export const db = new Kysely<DB>({
     dialect,
     plugins: [],
