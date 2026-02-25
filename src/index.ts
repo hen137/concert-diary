@@ -3,8 +3,8 @@ import { buildServer } from "./server.js";
 const server = buildServer({})
 
 await server.listen({
-    port: process.env.PORT,
-    host: process.env.POSTGRES_HOST,
+    port: process.env.PORT ? parseInt(process.env.PORT, 10) : 3000,
+    host: process.env.POSTGRES_HOST ? process.env.POSTGRES_HOST : 'localhost',
     listenTextResolver: (address) => `Server listening on ${address}`
 })
     // .then(() => {
