@@ -10,6 +10,7 @@ import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod
 export function buildServer(options: FastifyServerOptions) {
     // the server object, modifed to use the ZodTypeProvider for schema validation, serialization and type inference in routes
     const server = Fastify({
+        // TODO: expand logging configuration
         logger: true,
         // generates a random 10 character string ensuring unique request ids
         genReqId(_req) {

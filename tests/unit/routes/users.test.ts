@@ -1,12 +1,13 @@
 import { describe } from "@jest/globals"
-import { de } from "zod/v4/locales"
+
+// TODO: Implement tests
 
 describe('User Route Tests', () => {
 
     describe('/users', () => {
         describe('GET', () => {
             describe('Positive Cases', () => {
-                test('Should return a list of users', () => {
+                test('placeholder', () => {
                     expect(true).toBe(true); // Placeholder test
                 })
             })

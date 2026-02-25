@@ -1,9 +1,9 @@
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 import { execSync } from 'child_process';
-import dotenv from 'dotenv';
-import { dirname } from 'path';
-import path from 'path';
-import { fileURLToPath } from 'url';
+// import dotenv from 'dotenv';
+// import { dirname } from 'path';
+// import path from 'path';
+// import { fileURLToPath } from 'url';
 // import 'tsconfig-paths/register';
 
 declare global {
@@ -14,7 +14,7 @@ export default async () => {
     console.log('Setting up test environment...');
 
     // Inject base environment variables
-    dotenv.config({ path: path.resolve(dirname(fileURLToPath(import.meta.url)), '../../.env') });
+    // dotenv.config({ path: path.resolve(dirname(fileURLToPath(import.meta.url)), '../../.env') });
 
     // Start a PostgreSQL container instance
     console.log('Starting PostgreSQL container...');
@@ -36,10 +36,11 @@ export default async () => {
         DB_NAME: container.getDatabase(),
     });
 
+    // TODO: use custom migration and seedings
     // Run database migrations and seeding
     console.log('Running database migrations and seeding...');
-    const kyselyPath = './node_modules/.bin/kysely';
-    execSync(`${kyselyPath} migrate:latest && ${kyselyPath} seed:run`);
+    // const kyselyPath = './node_modules/.bin/kysely';
+    // execSync(`${kyselyPath} migrate:latest && ${kyselyPath} seed:run`);
     console.log('Database is ready.');
 
     // Store the container instance in a global variable to access it in the teardown script
