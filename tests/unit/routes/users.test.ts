@@ -1,4 +1,4 @@
-import { describe } from "@jest/globals"
+import { describe, test } from "@jest/globals"
 
 // TODO: Implement tests
 
@@ -8,7 +8,13 @@ describe('User Route Tests', () => {
         describe('GET', () => {
             describe('Positive Cases', () => {
                 test('placeholder', () => {
-                    expect(true).toBe(true); // Placeholder test
+                    // expect(true).toBe(true); // Placeholder test
+
+                    var resp = globalThis.__DATABASE__.selectFrom('user_profiles').execute().then(users => {
+                        console.log('Users from database:', users);
+                    })
+                    
+                    expect(resp).resolves.toBeDefined();
                 })
             })
 
