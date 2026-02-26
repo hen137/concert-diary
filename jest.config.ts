@@ -10,11 +10,8 @@ const config: Config = {
 
   globalSetup: '<rootDir>/tests/utils/global-setup.ts',
   globalTeardown: "<rootDir>/tests/utils/global-teardown.ts",
-  globals: {
-    __TESTCONTAINER__: null, // PostgreSQL container instance
-    __DATABASE__: null, // Kysely database instance
-  },
-  // setupFilesAfterEnv: ['<rootDir>/tests/utils/global-setup.ts'], 
+  modulePaths: ['<rootDir>/src/', '<rootDir>/tests/'],
+  // moduleDirectories: ['node_modules', '<rootDir>/src/', '<rootDir>/tests/'],
 };
 
 export default config;

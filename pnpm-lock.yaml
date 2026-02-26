@@ -60,9 +60,6 @@ importers:
       '@faker-js/faker':
         specifier: ^10.3.0
         version: 10.3.0
-      '@jest/globals':
-        specifier: ^30.2.0
-        version: 30.2.0
       '@testcontainers/postgresql':
         specifier: ^11.12.0
         version: 11.12.0
