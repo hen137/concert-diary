@@ -5,8 +5,7 @@ export const getUserListSchema = {
     description: 'Queries for a list of users.',
     tags: ['users'],
     querystring: z.object({
-        flag: z.stringbool(),
-        test: z.string()
+        
     }),
     params: z.object({
         // id: z.string()
