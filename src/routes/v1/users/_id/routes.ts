@@ -1,7 +1,7 @@
-import type { AppServer } from "../../../../index.js";
+import type { Server } from "../../../../index.js";
 import { deactivateUserSchema, getUserSchema, updateUserSchema } from "../schemas.js";
  
-export default async function (server: AppServer) {
+export default async function (server: Server) {
     // OperationID: getUser
     server.get('', { schema: getUserSchema }, async (request, response) => {
 

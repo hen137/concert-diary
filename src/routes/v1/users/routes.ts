@@ -1,7 +1,7 @@
-import type { AppServer } from "../../../index.js";
+import type { Server } from "../../../index.js";
 import { getUserListSchema, createUserSchema } from "./schemas.js";
 
-export default async function userRoutes(server: AppServer) {
+export default async function userRoutes(server: Server) {
     // OperationID: getUserList
     server.get('', { schema: getUserListSchema }, async (request, response) => {
 

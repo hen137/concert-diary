@@ -2,7 +2,8 @@ import { buildServer } from "./server.js";
 
 const server = buildServer({})
 
-export type AppServer = typeof server;
+// TODO: improve server type inference
+export type Server = typeof server;
 
 await server.listen({
     port: process.env.PORT ? parseInt(process.env.PORT, 10) : 3000,
