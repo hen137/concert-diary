@@ -18,33 +18,39 @@ declare module 'fastify' {
 }
 
 async function envPlugin(server: FastifyInstance, options: FastifyPluginOptions) {
-    await server.register(fastifyEnv, {
-        confKey: 'env',
-        schema: {
-            type: 'object',
-            required: ['PORT', 'POSTGRES_HOST', 'POSTGRES_DB', 'POSTGRES_USER', 'POSTGRES_PASSWORD'],
-            properties: {
-                PORT: {
-                    type: 'number',
-                },
-                POSTGRES_HOST: {
-                    type: 'string'
-                },
-                POSTGRES_DB: {
-                    type: 'string',
-                },
-                POSTGRES_USER: {
-                    type: 'string',
-                },
-                POSTGRES_PASSWORD: {
-                    type: 'string',
-                },
-                POSTGRES_PORT: {
-                    type: 'number',
+    try {
+        await server.register(fastifyEnv, {
+            confKey: 'env',
+            schema: {
+                type: 'object',
+                required: ['PORT', 'POSTGRES_HOST', 'POSTGRES_DB', 'POSTGRES_USER', 'POSTGRES_PASSWORD'],
+                properties: {
+                    PORT: {
+                        type: 'number',
+                    },
+                    POSTGRES_HOST: {
+                        type: 'string'
+                    },
+                    POSTGRES_DB: {
+                        type: 'string',
+                    },
+                    POSTGRES_USER: {
+                        type: 'string',
+                    },
+                    POSTGRES_PASSWORD: {
+                        type: 'string',
+                    },
+                    POSTGRES_PORT: {
+                        type: 'number',
+                    },
                 },
             },
-        },
-    })
+        })
+
+        server.log.debug('Environment plugin registered successfully');
+    } catch (error) {
+        server.log.error(error, 'Error registering environment plugin:');
+    }
 }
 
 export default fp(envPlugin, {

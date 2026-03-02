@@ -11,7 +11,16 @@ export function buildServer(options: FastifyServerOptions) {
     // the server object, modifed to use the ZodTypeProvider for schema validation, serialization and type inference in routes
     const server = Fastify({
         // TODO: expand logging configuration
-        logger: true,
+        logger: {
+            level: 'trace',
+            transport: {
+                target: 'pino-pretty',
+                options: {
+                    colorize: true,
+                    translateTime: 'HH:MM:ss Z',
+                }
+            },
+        },
         // generates a random 10 character string ensuring unique request ids
         genReqId(_req) {
             return Math.random().toString(36).substring(2, 12);
@@ -25,12 +34,8 @@ export function buildServer(options: FastifyServerOptions) {
     // Plugins
     server.register(autoLoad, {
         dir: join(dirname(fileURLToPath(import.meta.url)), 'plugins'),
-        matchFilter: (path) => path.includes('plugin')
+        matchFilter: (path) => path.includes('plugin'),
     })
-        .after(error => {
-            if (error) console.log('Error registering plugins:\n', error);
-            else console.log('Plugins registered successfully');
-        });
 
     // Routes
     server.register(autoLoad, {
@@ -39,8 +44,8 @@ export function buildServer(options: FastifyServerOptions) {
         dirNameRoutePrefix: true // uses directory structure as route prefixes
     })
         .after(error => {
-            if (error) console.log('Error registering routes:\n', error);
-            else console.log('Routes registered successfully')
+            if (error) server.log.error(error, 'Error registering routes:');
+            // else console.log('Routes registered successfully')
         });
 
     //Decorators
@@ -48,12 +53,8 @@ export function buildServer(options: FastifyServerOptions) {
     // Hooks
     server.register(autoLoad, {
         dir: join(dirname(fileURLToPath(import.meta.url)), 'hooks'),
-        matchFilter: (path) => path.includes('hook') // only load files that end with .hook.js
+        matchFilter: (path) => path.includes('hook')
     })
-        .after(error => {
-            if (error) console.log('Error registering hooks:\n', error);
-            else console.log('Hooks registered successfully')
-        });
 
     // Services
 
