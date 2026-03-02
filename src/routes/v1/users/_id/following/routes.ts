@@ -1,7 +1,9 @@
-import type { FastifyInstance } from "fastify";
-// import {  } from "../schemas.js";
-import { getFollowing } from "../../controllers.js";
+import type { AppServer } from "../../../../../index.js";
+import { getFollowingSchema } from "../../schemas.js";
  
-export default async function (server: FastifyInstance) {
-    server.get('', {}, getFollowing)
+export default async function (server: AppServer) {
+    // OperationID: getFollowing
+    server.get('', { schema: getFollowingSchema }, async (request, response) => {
+
+    })
 }
