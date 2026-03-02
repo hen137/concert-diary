@@ -1,31 +1,5 @@
 import { z } from "zod"
 
-export const testSchema = {
-    // params: z.object({
-
-    // }),
-    querystring: z.object({
-        flag: z.stringbool()
-    }),
-    // headers: z.object({
-
-    // }),
-    response: {
-        200: z.object({
-            foo: z.string()
-        }),
-        201: z.object({
-            test: z.string()
-        }),
-        500: z.object({
-            "statusCode": z.int(),
-            "code": z.string(),
-            "error": z.string(),
-            "message": z.string()
-        })
-    }
-}
-
 export const getUserListSchema = {
     querystring: z.object({
         flag: z.stringbool(),
