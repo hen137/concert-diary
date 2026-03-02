@@ -1,6 +1,9 @@
 import { z } from "zod"
 
 export const getUserListSchema = {
+    summary: 'Get list of users',
+    description: 'Queries for a list of users.',
+    tags: ['users'],
     querystring: z.object({
         flag: z.stringbool(),
         test: z.string()
@@ -30,6 +33,9 @@ export const getUserListSchema = {
 }
 
 export const getUserSchema = {
+    summary: 'Get a user',
+    description: 'Queries for a specific user.',
+    tags: ['users'],
     // body: z.object({
 
     // }),
@@ -59,6 +65,9 @@ export const getUserSchema = {
 }
 
 export const createUserSchema = {
+    summary: 'Create a user',
+    description: 'Creates a new user.',
+    tags: ['users'],
     params: z.object({
 
     }),
@@ -82,11 +91,14 @@ export const createUserSchema = {
 }
 
 export const getFollowersSchema = {
+    summary: 'Get followers',
+    description: 'Queries for a list of followers.',
+    tags: ['users'],
     params: z.object({
 
     }),
     querystring: z.object({
-        
+
     }),
     headers: z.object({
 
@@ -105,11 +117,14 @@ export const getFollowersSchema = {
 }
 
 export const getFollowingSchema = {
+    summary: 'Get following',
+    description: 'Queries for a list of following.',
+    tags: ['users'],
     params: z.object({
 
     }),
     querystring: z.object({
-        
+
     }),
     headers: z.object({
 
@@ -128,11 +143,14 @@ export const getFollowingSchema = {
 }
 
 export const updateUserSchema = {
+    summary: 'Update a user',
+    description: 'Updates an existing user.',
+    tags: ['users'],
     params: z.object({
 
     }),
     querystring: z.object({
-        
+
     }),
     headers: z.object({
 
@@ -151,11 +169,14 @@ export const updateUserSchema = {
 }
 
 export const deactivateUserSchema = {
+    summary: 'Deactivate a user',
+    description: 'Deactivates an existing user.',
+    tags: ['users'],
     params: z.object({
 
     }),
     querystring: z.object({
-        
+
     }),
     headers: z.object({
 
