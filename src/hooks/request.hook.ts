@@ -7,10 +7,12 @@ import { ALS } from "../utils/als.utils.js";
 async function requestHook(server: Server, options: FastifyPluginOptions) {
     try {
         server.addHook('onRequest', (request, reply, next) => {
+            // create a child logger for the request, using the route summary as context
             const summary = request.routeOptions.schema?.summary || '';
             const childLogger = request.log.child({ api: summary });
             request.log = childLogger;
-
+            
+            // initiate request lifecycle with the ALS context containing the child logger
             ALS.asyncStore.run({ logger: childLogger }, () => {
                 ALS.getLogger().debug('onRequest hook executed, logger context set');
                 next()
