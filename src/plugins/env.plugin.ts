@@ -1,4 +1,5 @@
-import type { FastifyInstance, FastifyPluginOptions } from 'fastify';
+import type { FastifyPluginOptions } from 'fastify';
+import type { Server } from '../index.js';
 
 import fastifyEnv from '@fastify/env';
 import fp from 'fastify-plugin';
@@ -17,7 +18,7 @@ declare module 'fastify' {
     }
 }
 
-async function envPlugin(server: FastifyInstance, options: FastifyPluginOptions) {
+async function envPlugin(server: Server, options: FastifyPluginOptions) {
     try {
         await server.register(fastifyEnv, {
             confKey: 'env',
