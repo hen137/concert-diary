@@ -45,7 +45,6 @@ export function buildServer(options: FastifyServerOptions) {
     })
         .after(error => {
             if (error) server.log.error(error, 'Error registering routes:');
-            // else console.log('Routes registered successfully')
         });
 
     //Decorators
