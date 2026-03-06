@@ -2,21 +2,22 @@ import type { FastifyPluginOptions } from "fastify";
 import type { Server } from "../index.js";
 
 import fp from "fastify-plugin"
+import { ALS } from "../utils/als.utils.js";
 
 async function requestHook(server: Server, options: FastifyPluginOptions) {
     try {
-        server.addHook('onRequest', async (request, reply) => {
-            // 1. Get the API summary from the route definition
+        server.addHook('onRequest', (request, reply, next) => {
             const summary = request.routeOptions.schema?.summary || '';
-            // 2. Create a child logger based on the current request's logger and add extra info
             const childLogger = request.log.child({ api: summary });
-            // 3. Overwrite the current request's logger with the new child logger
             request.log = childLogger;
+
+            ALS.asyncStore.run({ logger: childLogger }, () => {
+                ALS.getLogger().debug('onRequest hook executed, logger context set');
+                next()
+            });
         });
 
         // other request hooks
-
-        server.log.debug('onRequest hooks registered successfully ');
     } catch (error) {
         server.log.error(error, 'Error registering request hooks:');
     }
