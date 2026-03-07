@@ -1,7 +1,7 @@
 import { buildServer } from "./server.js";
 
-const server = buildServer({
-    // TODO: expand logging configuration
+const server = buildServer({ // Fastify Server options: https://deepwiki.com/fastify/fastify/2.2-fastify-instance-api#core-properties
+    // TODO: expand server options
     logger: {
         level: 'trace',
         transport: {

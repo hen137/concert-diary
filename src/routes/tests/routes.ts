@@ -3,14 +3,14 @@ import type { Server } from "../../index.js";
 import { testSchema } from "./schemas.js";
 import { logger } from '../../utils/logger.utils.js';
 
-export default async function userRoutes(server: Server) {
+export default async function testRoutes(server: Server) {
     // NOTE: conisder registering route hooks
-
-    server.get('', { schema: testSchema }, async (request, reply) => {
-        logger.info('Received request with query:');
-
+    
+    server.get('', { schema: testSchema }, async (request, response) => {
+        
+        
         return {
-            foo: 'bar'
+            "statusCode": response.statusCode,
         }
     })
 }
