@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { userSchema, paginationSchema, serverErrorSchema } from "../../../utils/schemas.utils.js";
+import { userSchema, paginationSchema, serverErrorSchema } from "../schemas/snippets.schema.js";
 
 export const getUserListSchema = {
     summary: 'Get list of users',
