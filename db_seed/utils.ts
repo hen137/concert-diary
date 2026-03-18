@@ -1,11 +1,12 @@
-import type {DB} from '../src/types/database.js';
-import {db} from './database.js';
+import type { TableExpressionOrList } from 'kysely';
+import type { DB } from '../src/types/database.js';
 
-export async function wipe_db() {
-    // for (let table of Object.keys(db.schema)) {
-    //     await db.deleteFrom(table).execute()
-    // }
+import { db } from './database.js';
 
-    // loop through all tables
-    // 
+export async function wipe_table(table: TableExpressionOrList<DB, never>) {
+    await db.deleteFrom(table).execute();
 }
+
+// export async function wipe_db() {
+
+// }
