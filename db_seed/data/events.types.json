@@ -1,0 +1,14 @@
+[
+    {
+        "type_description": "Concert"
+    },
+    {
+        "type_description": "Symphony"
+    },
+    {
+        "type_description": "Opera"
+    },
+    {
+        "type_description": "Other"
+    }
+]

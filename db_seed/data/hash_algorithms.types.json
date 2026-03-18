@@ -1,0 +1,14 @@
+[
+    {
+        "algorithm_description": "MD5"
+    },
+    {
+        "algorithm_description": "SHA-1"
+    },
+    {
+        "algorithm_description": "SHA-256"
+    },
+    {
+        "algorithm_description": "Other"
+    }
+]

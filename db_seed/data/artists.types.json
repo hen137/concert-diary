@@ -1,0 +1,23 @@
+[
+    {
+        "type_description": "Person"
+    },
+    {
+        "type_description": "Band"
+    },
+    {
+        "type_description": "Choir"
+    },
+    {
+        "type_description": "Orchestra"
+    },
+    {
+        "type_description": "Digital"
+    },
+    {
+        "type_description": "Music Professional"
+    },
+    {
+        "type_description": "Other"
+    }
+]
