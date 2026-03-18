@@ -1,0 +1,11 @@
+[
+    {
+        "role_description": "Admin"
+    },
+    {
+        "role_description": "User"
+    },
+    {
+        "role_description": "Other"
+    }
+]
