@@ -15,7 +15,7 @@ export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export interface Artists {
   artist_description: string | null;
-  artist_id: Generated<number>;
+  artist_id: Generated<string>;
   artist_name: string;
   img_url: string | null;
   type_id: number;
@@ -23,13 +23,13 @@ export interface Artists {
 }
 
 export interface ArtistsGenres {
-  artist_id: number;
+  artist_id: string;
   genre_id: number;
 }
 
 export interface ArtistsSeries {
-  artist_id: number;
-  series_id: number;
+  artist_id: string;
+  series_id: string;
 }
 
 export interface ArtistTypes {
@@ -40,16 +40,16 @@ export interface ArtistTypes {
 export interface EventReviewLikes {
   datetime_created: Generated<Timestamp | null>;
   like_id: Generated<number>;
-  review_id: number;
+  review_id: string;
 }
 
 export interface EventReviews {
   datetime_created: Generated<Timestamp | null>;
-  event_id: number;
+  event_id: string;
   rating: number;
-  review_id: Generated<number>;
+  review_id: Generated<string>;
   review_text: string | null;
-  user_id: number;
+  user_id: string;
 }
 
 export interface Events {
@@ -57,21 +57,21 @@ export interface Events {
   event_begin_date: Timestamp;
   event_description: string | null;
   event_end_date: Timestamp | null;
-  event_id: Generated<number>;
+  event_id: Generated<string>;
   event_name: string;
   event_time: string;
   img_url: string | null;
-  series_id: number;
-  setlist_id: number;
+  series_id: string;
+  setlist_id: string;
   tickets_required: Generated<boolean | null>;
   tickets_url: string | null;
   type_id: number;
-  venue_id: number;
+  venue_id: string;
 }
 
 export interface EventsArtists {
-  artist_id: number;
-  event_id: number;
+  artist_id: string;
+  event_id: string;
 }
 
 export interface EventTypes {
@@ -85,8 +85,8 @@ export interface GenreTypes {
 }
 
 export interface GroupsMembers {
-  group_id: number;
-  member_id: number;
+  group_id: string;
+  member_id: string;
 }
 
 export interface HashAlgorithmTypes {
@@ -108,7 +108,7 @@ export interface Series {
   avg_rating: Generated<Numeric | null>;
   img_url: string | null;
   series_description: string | null;
-  series_id: Generated<number>;
+  series_id: Generated<string>;
   series_name: string;
   type_id: number;
 }
@@ -120,7 +120,7 @@ export interface SeriesTypes {
 
 export interface Setlists {
   setlist_description: string | null;
-  setlist_id: Generated<number>;
+  setlist_id: Generated<string>;
 }
 
 export interface SubgenresTypes {
@@ -136,7 +136,7 @@ export interface UserAccounts {
   password_hash: string;
   password_salt: string;
   role_id: number;
-  user_id: Generated<number>;
+  user_id: Generated<string>;
   username: string;
 }
 
@@ -152,30 +152,30 @@ export interface UserProfiles {
   phone_number: string | null;
   postal_code: string | null;
   region: string | null;
-  user_id: number;
+  user_id: string;
 }
 
 export interface UserRelationships {
   datetime_created: Generated<Timestamp | null>;
-  follower_id: number;
-  following_id: number;
+  follower_id: string;
+  following_id: string;
   relationship_type_id: number;
 }
 
 export interface VenueReviewLikes {
   datetime_created: Generated<Timestamp | null>;
   like_id: Generated<number>;
-  review_id: number;
+  review_id: string;
 }
 
 export interface VenueReviews {
   datetime_created: Generated<Timestamp | null>;
-  event_id: number;
+  event_id: string;
   rating: number;
-  review_id: Generated<number>;
+  review_id: Generated<string>;
   review_text: string | null;
-  user_id: number;
-  venue_id: number;
+  user_id: string;
+  venue_id: string;
 }
 
 export interface Venues {
@@ -183,14 +183,14 @@ export interface Venues {
   img_url: string | null;
   type_id: number;
   venue_description: string | null;
-  venue_id: Generated<number>;
+  venue_id: Generated<string>;
   venue_name: string;
   website_url: string | null;
 }
 
 export interface VenuesSeries {
-  series_id: number;
-  venue_id: number;
+  series_id: string;
+  venue_id: string;
 }
 
 export interface VenueTypes {
