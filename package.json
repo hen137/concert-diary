@@ -4,12 +4,12 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test1": "jest --config=jest.config.ts",
     "prod": "tsx --env-file=./env/.env.prod ./src/index.ts",
     "dev": "tsx watch --env-file=./env/.env.dev ./src/index.ts",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --env-file=./env/.env.test",
-    "gen:db-types": "kysely-codegen --dialect postgres --out-file ./src/types/database.d.ts",
-    "seed": "tsx --env-file=./env/.env.seed ./db_seed/seed.ts"
+    "gen:db-types": "kysely-codegen --dialect postgres --env-file ./env/.env.dev --out-file ./src/types/database.d.ts",
+    "dev:db-seed": "tsx --env-file=./env/.env.dev ./db_seed/dev.seed.ts",
+    "dev:db-reset": "tsx --env-file=./env/.env.dev ./db_seed/reset_schema.ts"
   },
   "keywords": [],
   "author": "",
