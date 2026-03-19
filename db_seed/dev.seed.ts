@@ -1,8 +1,6 @@
 import type { Artists, Series, Venues, Events, UserAccounts, UserProfiles, EventReviews, Setlists, VenueReviewLikes, VenueReviews, EventReviewLikes } from '../src/types/database.js';
 
-import { db } from './database.js';
-import { faker } from '@faker-js/faker';
-// import { v7 as uuidv7 } from 'uuid';
+import { seedTypeTables, wipeTable } from './utils.seed.js';
 import artistTypes from './data/artists.types.json' with {type: 'json'};
 import eventTypes from './data/events.types.json' with {type: 'json'};
 import genreTypes from './data/genres.types.json' with {type: 'json'};
@@ -10,11 +8,15 @@ import hashAlgorithmTypes from './data/hash_algorithms.types.json' with {type: '
 import relationshipTypes from './data/relationships.types.json' with {type: 'json'};
 import roleTypes from './data/roles.types.json' with {type: 'json'};
 import seriesTypes from './data/series.types.json' with {type: 'json'};
-import subgenresTypes from './data/subgenres.types.json' with {type: 'json'};
+// import subgenresTypes from './data/subgenres.types.json' with {type: 'json'};
 import venueTypes from './data/venues.types.json' with {type: 'json'};
-import { wipe_table } from './utils.js';
 
+import { faker } from '@faker-js/faker';
+import { db } from './database.js';
+// import { v7 as uuidv7 } from 'uuid';
 
+// FIXME: Kysely's ColumnType<T> imcompatability
+// TODO: MAKE OPERATIONS IDEMPOTENT
 // seeding is needed for testing and development environments
 
 // seeding order:
@@ -25,39 +27,13 @@ import { wipe_table } from './utils.js';
 // likes tables
 // relationship tables
 
-const wipeTables = false;
-const wipeTypesTables = false
+const wipeTables = true;
 
 // types
-wipeTypesTables && await wipe_table('artist_types');
-// await db.insertInto('artist_types').values(artistTypes).execute();
-
-wipeTypesTables && await wipe_table('event_types');
-// await db.insertInto('event_types').values(eventTypes).execute();
-
-wipeTypesTables && await wipe_table('genre_types');
-// await db.insertInto('genre_types').values(genreTypes).execute();
-
-wipeTypesTables && await wipe_table('hash_algorithm_types');
-// await db.insertInto('hash_algorithm_types').values(hashAlgorithmTypes).execute();
-
-wipeTypesTables && await wipe_table('relationship_types');
-// await db.insertInto('relationship_types').values(relationshipTypes).execute();
-
-wipeTypesTables && await wipe_table('role_types');
-// await db.insertInto('role_types').values(roleTypes).execute();
-
-wipeTypesTables && await wipe_table('series_types');
-// await db.insertInto('series_types').values(seriesTypes).execute();
-
-wipeTypesTables && await wipe_table('subgenres_types');
-// await db.insertInto('subgenres_types').values(subgenresTypes).execute();
-
-wipeTypesTables && await wipe_table('venue_types');
-// await db.insertInto('venue_types').values(venueTypes).execute();
+seedTypeTables(wipeTables)
 
 // artists
-wipeTables && await wipe_table('artists');
+wipeTables && await wipeTable('artists');
 const artistsValues: Artists[] = [];
 for (let i = 0; i < 100; i++) {
     artistsValues.push({
@@ -70,10 +46,10 @@ for (let i = 0; i < 100; i++) {
     })
 }
 // console.log(artistsValues[0]);
-// await db.insertInto('artists').values(artistsValues).execute();
+await db.insertInto('artists').values(artistsValues).execute();
 
 // series
-wipeTables && await wipe_table('series');
+wipeTables && await wipeTable('series');
 const seriesValues: Series[] = [];
 for (let i = 0; i < 20; i++) {
     seriesValues.push({
@@ -86,10 +62,10 @@ for (let i = 0; i < 20; i++) {
     })
 }
 // console.log(seriesValues[0]);
-// await db.insertInto('series').values(seriesValues).execute();
+await db.insertInto('series').values(seriesValues).execute();
 
 // venues
-wipeTables && await wipe_table('venues');
+wipeTables && await wipeTable('venues');
 const venuesValues: Venues[] = [];
 for (let i = 0; i < 20; i++) {
     venuesValues.push({
@@ -103,10 +79,10 @@ for (let i = 0; i < 20; i++) {
     })
 }
 // console.log(venuesValues[0]);
-// await db.insertInto('venues').values(venuesValues).execute();
+await db.insertInto('venues').values(venuesValues).execute();
 
 // setlists
-wipeTables && await wipe_table('setlists');
+wipeTables && await wipeTable('setlists');
 const setlistsValues: Setlists[] = [];
 for (let i = 0; i < 35; i++) {
     setlistsValues.push({
@@ -115,10 +91,10 @@ for (let i = 0; i < 35; i++) {
     })
 }
 // console.log(setlistsValues[0]);
-// await db.insertInto('setlists').values(setlistsValues).execute();
+await db.insertInto('setlists').values(setlistsValues).execute();
 
 // events
-wipeTables && await wipe_table('events');
+wipeTables && await wipeTable('events');
 const eventsValues: Events[] = [];
 for (let i = 0; i < 50; i++) {
     eventsValues.push({
@@ -132,10 +108,10 @@ for (let i = 0; i < 50; i++) {
     })
 }
 // console.log(eventsValues[0]);
-// await db.insertInto('events').values(eventsValues).execute();
+await db.insertInto('events').values(eventsValues).execute();
 
 // users
-wipeTables && await wipe_table('user_accounts');
+wipeTables && await wipeTable('user_accounts');
 const usersAccountsValues: UserAccounts[] = [];
 for (let i = 0; i < 20; i++) {
     usersAccountsValues.push({
@@ -148,9 +124,9 @@ for (let i = 0; i < 20; i++) {
     })
 }
 // console.log(usersAccountsValues[0]);
-// await db.insertInto('user_accounts').values(usersAccountsValues).execute();
+await db.insertInto('user_accounts').values(usersAccountsValues).execute();
 
-wipeTables && await wipe_table('user_profiles');
+wipeTables && await wipeTable('user_profiles');
 const userProfilesValues: UserProfiles[] = [];
 for (let i = 0; i < usersAccountsValues.length; i++) {
     userProfilesValues.push({
@@ -164,10 +140,10 @@ for (let i = 0; i < usersAccountsValues.length; i++) {
     })
 }
 // console.log(userProfilesValues[0]);
-// await db.insertInto('user_profiles').values(userProfilesValues).execute();
+await db.insertInto('user_profiles').values(userProfilesValues).execute();
 
 // reviews
-wipeTables && await wipe_table('venue_reviews');
+wipeTables && await wipeTable('venue_reviews');
 const venueReviewsValues: VenueReviews[] = [];
 for (let i = 0; i < 50; i++) {
     venueReviewsValues.push({
@@ -181,9 +157,9 @@ for (let i = 0; i < 50; i++) {
     })
 }
 // console.log(venueReviewsValues[0]);
-// await db.insertInto('venue_reviews').values(venueReviewsValues).execute();
+await db.insertInto('venue_reviews').values(venueReviewsValues).execute();
 
-wipeTables && await wipe_table('event_reviews');
+wipeTables && await wipeTable('event_reviews');
 const eventReviewsValues: EventReviews[] = [];
 for (let i = 0; i < 50; i++) {
     eventReviewsValues.push({
@@ -196,10 +172,10 @@ for (let i = 0; i < 50; i++) {
     })
 }
 // console.log(eventReviewsValues[0]);
-// await db.insertInto('event_reviews').values(eventReviewsValues).execute();
+await db.insertInto('event_reviews').values(eventReviewsValues).execute();
 
 // likes
-wipeTables && await wipe_table('venue_review_likes');
+wipeTables && await wipeTable('venue_review_likes');
 const venueReviewLikesValues: VenueReviewLikes[] = [];
 for (let i = 0; i < 100; i++) {
     venueReviewLikesValues.push({
@@ -209,9 +185,9 @@ for (let i = 0; i < 100; i++) {
     })
 }
 // console.log(venueReviewLikesValues[0]);
-// await db.insertInto('venue_review_likes').values(venueReviewLikesValues).execute();
+await db.insertInto('venue_review_likes').values(venueReviewLikesValues).execute();
 
-wipeTables && await wipe_table('event_review_likes');
+wipeTables && await wipeTable('event_review_likes');
 const eventReviewLikesValues: EventReviewLikes[] = [];
 for (let i = 0; i < 100; i++) {
     eventReviewLikesValues.push({
@@ -221,6 +197,6 @@ for (let i = 0; i < 100; i++) {
     })
 }
 // console.log(eventReviewLikesValues[0]);
-// await db.insertInto('event_review_likes').values(eventReviewLikesValues).execute();
+await db.insertInto('event_review_likes').values(eventReviewLikesValues).execute();
 
 // relationships 
