@@ -1,7 +1,7 @@
 CREATE TABLE user_accounts (
     user_id                 UUID PRIMARY KEY DEFAULT uuidv7(),
-    role_id                 INT NOT NULL REFERENCES role_types(role_id),
-    hash_algorithm_id       INT NOT NULL REFERENCES hash_algorithm_types(algorithm_id),
+    role_id                 INT NOT NULL REFERENCES role_types(type_id),
+    hash_algorithm_id       INT NOT NULL REFERENCES hash_algorithm_types(type_id),
     username                VARCHAR(50) NOT NULL UNIQUE,
     email                   VARCHAR(254) NOT NULL UNIQUE,
     password_hash           VARCHAR(128) NOT NULL,

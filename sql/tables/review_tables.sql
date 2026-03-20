@@ -18,13 +18,13 @@ CREATE TABLE venue_reviews (
 );
 
 CREATE TABLE event_review_likes (
-    like_id                 SERIAL PRIMARY KEY,
+    like_id                 UUID PRIMARY KEY,
     review_id               UUID NOT NULL REFERENCES event_reviews(review_id),
     datetime_created        TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE venue_review_likes (
-    like_id                 SERIAL PRIMARY KEY,
+    like_id                 UUID PRIMARY KEY,
     review_id               UUID NOT NULL REFERENCES venue_reviews(review_id),
     datetime_created        TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
