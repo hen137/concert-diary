@@ -34,12 +34,12 @@ export interface ArtistsSeries {
 
 export interface ArtistTypes {
   type_description: string;
-  type_id: Generated<number>;
+  type_id: number;
 }
 
 export interface EventReviewLikes {
   datetime_created: Generated<Timestamp | null>;
-  like_id: Generated<number>;
+  like_id: string;
   review_id: string;
 }
 
@@ -59,10 +59,10 @@ export interface Events {
   event_end_date: Timestamp | null;
   event_id: Generated<string>;
   event_name: string;
-  event_time: string;
+  event_time: string | null;
   img_url: string | null;
   series_id: string;
-  setlist_id: string;
+  setlist_id: string | null;
   tickets_required: Generated<boolean | null>;
   tickets_url: string | null;
   type_id: number;
@@ -76,12 +76,12 @@ export interface EventsArtists {
 
 export interface EventTypes {
   type_description: string;
-  type_id: Generated<number>;
+  type_id: number;
 }
 
 export interface GenreTypes {
   type_description: string;
-  type_id: Generated<number>;
+  type_id: number;
 }
 
 export interface GroupsMembers {
@@ -90,18 +90,18 @@ export interface GroupsMembers {
 }
 
 export interface HashAlgorithmTypes {
-  algorithm_description: string;
-  algorithm_id: Generated<number>;
+  type_description: string;
+  type_id: number;
 }
 
 export interface RelationshipTypes {
   type_description: string;
-  type_id: Generated<number>;
+  type_id: number;
 }
 
 export interface RoleTypes {
-  role_description: string;
-  role_id: Generated<number>;
+  type_description: string;
+  type_id: number;
 }
 
 export interface Series {
@@ -115,7 +115,7 @@ export interface Series {
 
 export interface SeriesTypes {
   type_description: string;
-  type_id: Generated<number>;
+  type_id: number;
 }
 
 export interface Setlists {
@@ -126,7 +126,7 @@ export interface Setlists {
 export interface SubgenresTypes {
   genre_id: number;
   type_description: string;
-  type_id: Generated<number>;
+  type_id: number;
 }
 
 export interface UserAccounts {
@@ -164,7 +164,7 @@ export interface UserRelationships {
 
 export interface VenueReviewLikes {
   datetime_created: Generated<Timestamp | null>;
-  like_id: Generated<number>;
+  like_id: string;
   review_id: string;
 }
 
@@ -195,7 +195,7 @@ export interface VenuesSeries {
 
 export interface VenueTypes {
   type_description: string;
-  type_id: Generated<number>;
+  type_id: number;
 }
 
 export interface DB {
