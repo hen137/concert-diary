@@ -28,7 +28,7 @@ for (const file of sqlFiles) {
   try {
     console.log(`Reading SQL from ${dir}/${file}...`);
     const sqlText = await fs.readFile(`${dir}/${file}`, "utf-8");
-    await sql`${sql.raw(sqlText)}`.execute(db);
+    await sql`${sql.raw(sqlText)}`.execute(db); // bcuz this method is prone to injection attacks, should only be used in dev environments
   } catch (error) {
     console.error(`Error executing ${dir}/${file}:`, error);
     exit(1);
