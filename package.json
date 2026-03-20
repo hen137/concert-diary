@@ -5,11 +5,16 @@
   "main": "src/index.js",
   "scripts": {
     "prod": "tsx --env-file=./env/.env.prod ./src/index.ts",
-    "dev": "tsx watch --env-file=./env/.env.dev ./src/index.ts",
+    
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --env-file=./env/.env.test",
+    
     "gen:db-types": "kysely-codegen --dialect postgres --env-file ./env/.env.dev --out-file ./src/types/database.d.ts",
-    "dev:db-seed": "tsx --env-file=./env/.env.dev ./db_seed/dev.seed.ts",
-    "dev:db-reset": "tsx --env-file=./env/.env.dev ./db_seed/reset_schema.ts"
+    "gen:db-data-json": "tsx ./db_seed/data_json.ts",
+    
+    "dev": "tsx watch --env-file=./env/.env.dev ./src/index.ts",
+    "dev:db-reset": "pnpm dev:db-wipe && pnpm gen:db-types && pnpm gen:db-data-json && pnpm dev:db-seed",
+    "dev:db-wipe": "tsx --env-file=./env/.env.dev ./db_seed/db_wipe.ts",
+    "dev:db-seed": "tsx --env-file=./env/.env.dev ./db_seed/db_seed.ts"
   },
   "keywords": [],
   "author": "",
