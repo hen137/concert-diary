@@ -37,60 +37,65 @@ import {
 } from "./utils/static_data.js";
 
 const destDir = "./db_seed/data/";
+const suffix = ".data.json";
 
 // types
 console.log("Generating Types as JSON...");
 
 const typesDir = destDir + "types/";
-const typesSuffix = ".types.json";
+const typeInfix = "_types"
 
 if (!fs.existsSync(typesDir)) {
   fs.mkdirSync(typesDir, { recursive: true });
 }
 
 const artistTypeValues = getTypeValues<ArtistTypes>(artistTypes);
-jsonFromArray(artistTypeValues, typesDir + "artists" + typesSuffix);
+jsonFromArray(artistTypeValues, typesDir + "artists" + typeInfix + suffix);
 
 const eventTypeValues = getTypeValues<EventTypes>(eventTypes);
-jsonFromArray(eventTypeValues, typesDir + "events" + typesSuffix);
+jsonFromArray(eventTypeValues, typesDir + "events" + typeInfix + suffix);
 
 const genreTypeValues = getTypeValues<GenreTypes>(genreTypes);
-jsonFromArray(genreTypeValues, typesDir + "genres" + typesSuffix);
+jsonFromArray(genreTypeValues, typesDir + "genres" + typeInfix + suffix);
 
 const hashAlgorithmTypeValues =
   getTypeValues<HashAlgorithmTypes>(hashAlgorithmTypes);
 jsonFromArray(
   hashAlgorithmTypeValues,
-  typesDir + "hash_algorithms" + typesSuffix,
+  typesDir + "hash_algorithms" + typeInfix + suffix,
 );
 
 const relationshipTypeValues =
   getTypeValues<RelationshipTypes>(relationshipTypes);
-jsonFromArray(relationshipTypeValues, typesDir + "relationships" + typesSuffix);
+jsonFromArray(
+  relationshipTypeValues,
+  typesDir + "relationships" + typeInfix + suffix,
+);
 
 const roleTypeValues = getTypeValues<RoleTypes>(roleTypes);
-jsonFromArray(roleTypeValues, typesDir + "roles" + typesSuffix);
+jsonFromArray(roleTypeValues, typesDir + "roles" + typeInfix + suffix);
 
 const seriesTypeValues = getTypeValues<SeriesTypes>(seriesTypes);
-jsonFromArray(seriesTypeValues, typesDir + "series" + typesSuffix);
+jsonFromArray(seriesTypeValues, typesDir + "series" + typeInfix + suffix);
 
 // const subgenresTypeValues = getTypeValues<SubgenresTypes>(subgenresTypes);
-// jsonFromArray(subgenresTypeValues, typesDir + "subgenres" + typesSuffix);
+// jsonFromArray(subgenresTypeValues, typesDir + "subgenres" + typeInfix + suffix);
 
 const venueTypeValues = getTypeValues<VenueTypes>(venueTypes);
-jsonFromArray(venueTypeValues, typesDir + "venues" + typesSuffix);
+jsonFromArray(venueTypeValues, typesDir + "venues" + typeInfix + suffix);
 
 // primary entities
 console.log("Generating Primary Entities as JSON...");
 
 const primaryEntitiesDir = destDir + "primary_entities/";
-const primaryEntitiesSuffix = ".primary_entities.json";
+const primaryEntitiesInfix = "_primary_entities";
 
 if (!fs.existsSync(primaryEntitiesDir)) {
   fs.mkdirSync(primaryEntitiesDir, { recursive: true });
 }
 
 // FIXME: Kysely type imcompatabilities
+// TODO: generate case specific entities and relationships
 
 const artistsValues: Artists[] = [];
 for (let i = 0; i < 100; i++) {
@@ -106,7 +111,7 @@ for (let i = 0; i < 100; i++) {
 // console.log(artistsValues);
 jsonFromArray(
   artistsValues,
-  primaryEntitiesDir + "artists" + primaryEntitiesSuffix,
+  primaryEntitiesDir + "artists" + primaryEntitiesInfix + suffix,
 );
 
 const seriesValues: Series[] = [];
@@ -123,7 +128,7 @@ for (let i = 0; i < 20; i++) {
 // console.log(seriesValues);
 jsonFromArray(
   seriesValues,
-  primaryEntitiesDir + "series" + primaryEntitiesSuffix,
+  primaryEntitiesDir + "series" + primaryEntitiesInfix + suffix,
 );
 
 const venuesValues: Venues[] = [];
@@ -141,7 +146,7 @@ for (let i = 0; i < 20; i++) {
 // console.log(venuesValues);
 jsonFromArray(
   venuesValues,
-  primaryEntitiesDir + "venues" + primaryEntitiesSuffix,
+  primaryEntitiesDir + "venues" + primaryEntitiesInfix + suffix,
 );
 
 const setlistsValues: Setlists[] = [];
@@ -154,7 +159,7 @@ for (let i = 0; i < 35; i++) {
 // console.log(setlistsValues);
 jsonFromArray(
   setlistsValues,
-  primaryEntitiesDir + "setlists" + primaryEntitiesSuffix,
+  primaryEntitiesDir + "setlists" + primaryEntitiesInfix + suffix,
 );
 
 const eventsValues: Events[] = [];
@@ -173,7 +178,7 @@ for (let i = 0; i < 50; i++) {
 // console.log(eventsValues);
 jsonFromArray(
   eventsValues,
-  primaryEntitiesDir + "events" + primaryEntitiesSuffix,
+  primaryEntitiesDir + "events" + primaryEntitiesInfix + suffix,
 );
 
 const usersAccountsValues: UserAccounts[] = [];
@@ -206,7 +211,7 @@ const adminUser: UserAccounts = {
 // console.log(usersAccountsValues);
 jsonFromArray(
   usersAccountsValues,
-  primaryEntitiesDir + "user_accounts" + primaryEntitiesSuffix,
+  primaryEntitiesDir + "user_accounts" + primaryEntitiesInfix + suffix,
 );
 
 const userProfilesValues: UserProfiles[] = [];
@@ -225,7 +230,7 @@ for (let i = 0; i < usersAccountsValues.length; i++) {
 // console.log(userProfilesValues);
 jsonFromArray(
   userProfilesValues,
-  primaryEntitiesDir + "user_profiles" + primaryEntitiesSuffix,
+  primaryEntitiesDir + "user_profiles" + primaryEntitiesInfix + suffix,
 );
 
 const venueReviewsValues: VenueReviews[] = [];
@@ -243,7 +248,7 @@ for (let i = 0; i < 50; i++) {
 // console.log(venueReviewsValues);
 jsonFromArray(
   venueReviewsValues,
-  primaryEntitiesDir + "venue_reviews" + primaryEntitiesSuffix,
+  primaryEntitiesDir + "venue_reviews" + primaryEntitiesInfix + suffix,
 );
 
 const eventReviewsValues: EventReviews[] = [];
@@ -260,7 +265,7 @@ for (let i = 0; i < 50; i++) {
 // console.log(eventReviewsValues);
 jsonFromArray(
   eventReviewsValues,
-  primaryEntitiesDir + "event_reviews" + primaryEntitiesSuffix,
+  primaryEntitiesDir + "event_reviews" + primaryEntitiesInfix + suffix,
 );
 
 const venueReviewLikesValues: VenueReviewLikes[] = [];
@@ -274,7 +279,7 @@ for (let i = 0; i < 100; i++) {
 // console.log(venueReviewLikesValues);
 jsonFromArray(
   venueReviewLikesValues,
-  primaryEntitiesDir + "venue_review_likes" + primaryEntitiesSuffix,
+  primaryEntitiesDir + "venue_review_likes" + primaryEntitiesInfix + suffix,
 );
 
 const eventReviewLikesValues: EventReviewLikes[] = [];
@@ -288,14 +293,14 @@ for (let i = 0; i < 100; i++) {
 // console.log(eventReviewLikesValues);
 jsonFromArray(
   eventReviewLikesValues,
-  primaryEntitiesDir + "event_review_likes" + primaryEntitiesSuffix,
+  primaryEntitiesDir + "event_review_likes" + primaryEntitiesInfix + suffix,
 );
 
 // relationships
 console.log("Generating Relationships as JSON...");
 
 const relationshipsDir = destDir + "relationships/";
-const relationshipsSuffix = ".relationships.json";
+const relationshipsInfix = "_relationship";
 
 if (!fs.existsSync(relationshipsDir)) {
   fs.mkdirSync(relationshipsDir, { recursive: true });

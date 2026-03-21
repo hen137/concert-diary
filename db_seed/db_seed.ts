@@ -2,32 +2,32 @@ import { faker } from "@faker-js/faker";
 import { db } from "./database.js";
 // import { v7 as uuidv7 } from 'uuid';
 
-import artistTypes from "./data/types/artists.types.json" with { type: "json" };
-import venueTypes from "./data/types/venues.types.json" with { type: "json" };
-import seriesTypes from "./data/types/series.types.json" with { type: "json" };
-import eventTypes from "./data/types/events.types.json" with { type: "json" };
+import artistTypes from "./data/types/artists_types.data.json" with { type: "json" };
+import venueTypes from "./data/types/venues_types.data.json" with { type: "json" };
+import seriesTypes from "./data/types/series_types.data.json" with { type: "json" };
+import eventTypes from "./data/types/events_types.data.json" with { type: "json" };
 
-import hashAlgorithmTypes from "./data/types/hash_algorithms.types.json" with { type: "json" };
-import roleTypes from "./data/types/roles.types.json" with { type: "json" };
-import relationshipTypes from "./data/types/relationships.types.json" with { type: "json" };
+import hashAlgorithmTypes from "./data/types/hash_algorithms_types.data.json" with { type: "json" };
+import roleTypes from "./data/types/roles_types.data.json" with { type: "json" };
+import relationshipTypes from "./data/types/relationships_types.data.json" with { type: "json" };
 
-import genreTypes from "./data/types/genres.types.json" with { type: "json" };
-// import subgenresTypes from './data/types/subgenres.types.json' with {type: 'json'};
+import genreTypes from "./data/types/genres_types.data.json" with { type: "json" };
+// import subgenresTypes from './data/types/subgenres_types.data.json' with {type: 'json'};
 
-import artistsValues from "./data/primary_entities/artists.primary_entities.json" with { type: "json" };
-import seriesValues from "./data/primary_entities/series.primary_entities.json" with { type: "json" };
-import venuesValues from "./data/primary_entities/venues.primary_entities.json" with { type: "json" };
-import setlistsValues from "./data/primary_entities/setlists.primary_entities.json" with { type: "json" };
+import artistsValues from "./data/primary_entities/artists_primary_entities.data.json" with { type: "json" };
+import seriesValues from "./data/primary_entities/series_primary_entities.data.json" with { type: "json" };
+import venuesValues from "./data/primary_entities/venues_primary_entities.data.json" with { type: "json" };
+import setlistsValues from "./data/primary_entities/setlists_primary_entities.data.json" with { type: "json" };
 
-import eventsValues from "./data/primary_entities/events.primary_entities.json" with { type: "json" };
+import eventsValues from "./data/primary_entities/events_primary_entities.data.json" with { type: "json" };
 
-import usersAccountsValues from "./data/primary_entities/user_accounts.primary_entities.json" with { type: "json" };
-import userProfilesValues from "./data/primary_entities/user_profiles.primary_entities.json" with { type: "json" };
+import usersAccountsValues from "./data/primary_entities/user_accounts_primary_entities.data.json" with { type: "json" };
+import userProfilesValues from "./data/primary_entities/user_profiles_primary_entities.data.json" with { type: "json" };
 
-import venueReviewsValues from "./data/primary_entities/venue_reviews.primary_entities.json" with { type: "json" };
-import eventReviewsValues from "./data/primary_entities/event_reviews.primary_entities.json" with { type: "json" };
-import venueReviewLikesValues from "./data/primary_entities/venue_review_likes.primary_entities.json" with { type: "json" };
-import eventReviewLikesValues from "./data/primary_entities/event_review_likes.primary_entities.json" with { type: "json" };
+import venueReviewsValues from "./data/primary_entities/venue_reviews_primary_entities.data.json" with { type: "json" };
+import eventReviewsValues from "./data/primary_entities/event_reviews_primary_entities.data.json" with { type: "json" };
+import venueReviewLikesValues from "./data/primary_entities/venue_review_likes_primary_entities.data.json" with { type: "json" };
+import eventReviewLikesValues from "./data/primary_entities/event_review_likes_primary_entities.data.json" with { type: "json" };
 
 // import X from "./data/relationships/X.relationships.json" with { type: "json" };
 
