@@ -58,5 +58,3 @@ T extends { type_description: string; type_id: number },
     }
     return typeValues;
 }
-
-// TODO: functions for sampling data
