@@ -1,5 +1,5 @@
-import type { FastifyServerOptions } from 'fastify';
-import type { ZodTypeProvider } from 'fastify-type-provider-zod';
+import type { FastifyServerOptions } from "fastify";
+import type { ZodTypeProvider } from "fastify-type-provider-zod";
 
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
@@ -11,42 +11,44 @@ import {
 } from "fastify-type-provider-zod";
 import { auth } from "./utils/auth.utils.js";
 
-// Fastify server factory function 
+// Fastify server factory function
 export function buildServer(options: FastifyServerOptions) {
-    // the server object, modifed to use the ZodTypeProvider for schema validation, serialization and type inference in routes
-    const server = Fastify({
-        ...options
-    }).withTypeProvider<ZodTypeProvider>();
+  // the server object, modifed to use the ZodTypeProvider for schema validation, serialization and type inference in routes
+  const server = Fastify({
+    ...options,
+  }).withTypeProvider<ZodTypeProvider>();
 
-    server.setValidatorCompiler(validatorCompiler);
-    server.setSerializerCompiler(serializerCompiler);
+  server.setValidatorCompiler(validatorCompiler);
+  server.setSerializerCompiler(serializerCompiler);
 
-    // Plugins
-    server.register(autoLoad, {
-        dir: join(dirname(fileURLToPath(import.meta.url)), 'plugins'),
-        matchFilter: (path) => path.includes('plugin'),
-    })
+  // Plugins
+  server.register(autoLoad, {
+    dir: join(dirname(fileURLToPath(import.meta.url)), "plugins"),
+    matchFilter: (path) => path.includes("plugin"),
+  });
 
-    // Routes
-    server.register(autoLoad, {
-        dir: join(dirname(fileURLToPath(import.meta.url)), 'routes'),
-        routeParams: true, // enable path paramaters 
-        dirNameRoutePrefix: true // uses directory structure as route prefixes
+  // Routes
+  server
+    .register(autoLoad, {
+      dir: join(dirname(fileURLToPath(import.meta.url)), "routes"),
+      routeParams: true, // enable path paramaters
+      dirNameRoutePrefix: true, // uses directory structure as route prefixes
+    //   ignorePattern: /auth/, // TODO: confirm correct regex 
     })
         .after(error => {
             if (error) server.log.error(error, 'Error registering routes:');
         });
 
-    //Decorators
+  //Decorators
   server.decorate("auth", auth);
 
-    // Hooks
-    server.register(autoLoad, {
-        dir: join(dirname(fileURLToPath(import.meta.url)), 'hooks'),
-        matchFilter: (path) => path.includes('hook')
-    })
+  // Hooks
+  server.register(autoLoad, {
+    dir: join(dirname(fileURLToPath(import.meta.url)), "hooks"),
+    matchFilter: (path) => path.includes("hook"),
+  });
 
-    // Services
+  // Services
 
-    return server;
+  return server;
 }
