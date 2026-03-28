@@ -1,11 +1,15 @@
 import type { FastifyServerOptions } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
-import Fastify from 'fastify';
-import autoLoad from '@fastify/autoload';
-import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+import Fastify from "fastify";
+import autoLoad from "@fastify/autoload";
+import {
+  serializerCompiler,
+  validatorCompiler,
+} from "fastify-type-provider-zod";
+import { auth } from "./utils/auth.utils.js";
 
 // Fastify server factory function 
 export function buildServer(options: FastifyServerOptions) {
@@ -34,6 +38,7 @@ export function buildServer(options: FastifyServerOptions) {
         });
 
     //Decorators
+  server.decorate("auth", auth);
 
     // Hooks
     server.register(autoLoad, {
