@@ -6,11 +6,12 @@ CREATE TABLE user_accounts (
     email                   VARCHAR(254) NOT NULL UNIQUE,
     password_hash           VARCHAR(128) NOT NULL,
     password_salt           VARCHAR(255) NOT NULL,
-    active                  BOOLEAN DEFAULT TRUE
-    -- datetime_created        TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    -- datetime_updated        TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    -- datetime_deactivated    TIMESTAMPTZ NULL,
-    -- datetime_reactivated    TIMESTAMPTZ NULL
+    active                  BOOLEAN DEFAULT TRUE,
+    email_verified          BOOLEAN DEFAULT FALSE,
+    -- created_at           TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    -- updated_at           TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    -- deactivated_at       TIMESTAMPTZ NULL,
+    -- activated_at         TIMESTAMPTZ NULL
 );
 
 CREATE TABLE user_profiles (
@@ -25,5 +26,5 @@ CREATE TABLE user_profiles (
     region                  VARCHAR(50) NULL,
     postal_code             VARCHAR(20) NULL,
     country                 VARCHAR(50) NULL,
-    pfp_url                 VARCHAR(255) NULL
+    avatar_url              VARCHAR(255) NULL
 );
