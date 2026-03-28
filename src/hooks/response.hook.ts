@@ -9,7 +9,7 @@ async function responseHook(server: Server, options: FastifyPluginOptions) {
     try {
         server.addHook('onResponse', (request, reply, next) => {
             const logPrefix = '[onResponse hook]';
-            logger.debug(`${logPrefix} `);
+            logger.trace(`${logPrefix} `);
         });
     } catch (error) {
         logger.error(error, 'Error registering response hooks:');
