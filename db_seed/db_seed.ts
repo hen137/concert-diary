@@ -60,6 +60,7 @@ await db.insertInto("genre_types").values(genreTypes).execute();
 // await db.insertInto('subgenres_types').values(subgenresTypes).execute();
 
 // primary entity tables
+// TODO: make idempotent
 console.log("Populating Primary Entity Tables...");
 
 await db.insertInto("artists").values(artistsValues).execute();
