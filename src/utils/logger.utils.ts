@@ -3,7 +3,7 @@ import type { FastifyBaseLogger } from 'fastify';
 import { ALS } from './als.utils.js';
 
 // only expose the necessary log level methods
-export const logger: Pick<FastifyBaseLogger, 'info' | 'error' | 'warn' | 'debug'> = {
+export const logger: Pick<FastifyBaseLogger, 'info' | 'error' | 'warn' | 'debug' | 'trace'> = {
     get info() {
         const log = ALS.getLogger();
         return log.info.bind(log);
@@ -20,4 +20,8 @@ export const logger: Pick<FastifyBaseLogger, 'info' | 'error' | 'warn' | 'debug'
         const log = ALS.getLogger();
         return log.debug.bind(log);
     },
+    get trace() {
+        const log = ALS.getLogger();
+        return log.trace.bind(log);
+    }
 };
