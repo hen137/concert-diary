@@ -130,25 +130,30 @@ export interface SubgenresTypes {
 }
 
 export interface UserAccounts {
+  activated_at: Timestamp | null;
   active: Generated<boolean | null>;
+  created_at: Generated<Timestamp | null>;
+  deactivated_at: Timestamp | null;
   email: string;
+  email_verified: Generated<boolean | null>;
   hash_algorithm_id: number;
   password_hash: string;
   password_salt: string;
   role_id: number;
+  updated_at: Generated<Timestamp | null>;
   user_id: Generated<string>;
   username: string;
 }
 
 export interface UserProfiles {
   address_line: string | null;
+  avatar_url: string | null;
   city: string | null;
   country: string | null;
   date_of_birth: Timestamp | null;
   first_name: string;
   gender: string | null;
   last_name: string;
-  pfp_url: string | null;
   phone_number: string | null;
   postal_code: string | null;
   region: string | null;
