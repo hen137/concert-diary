@@ -1,22 +1,11 @@
 import type { Server } from "../../../index.js";
 
-import {
-  getUserListSchema,
-  createUserSchema,
-} from "../../../schemas/users.schema.js";
+import { getUserListSchema } from "../../../schemas/users.schema.js";
 
 export default async function userRoutes(server: Server) {
-  // NOTE: cconisder
-
-  // OperationID: getUserList
-  server.get("", { schema: getUserListSchema }, async (request, response) => {
-    // logger.info('Received request with query:');
-  });
-
-  // OperationID: createUser
-  server.post(
+  server.get(
     "",
-    { schema: createUserSchema },
+    { schema: getUserListSchema },
     async (request, response) => {},
   );
 }

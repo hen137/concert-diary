@@ -16,20 +16,16 @@ export const getUserListSchema = {
   summary: "Get list of users",
   description: "Queries for a list of users.",
   tags: ["users"],
-  querystring: z.object({}),
-  params: z.object({}),
-  headers: z.object({}),
+  operationId: "getUserList",
   response: {
     200: z
       .object({
-        statusCode: z.int(),
         page: paginationSchema,
         data: z.array(userSchema),
       })
       .meta({
         description: "200 success response for the get user list handler",
       }),
-    // 500: serverErrorSchema
   },
 };
 
@@ -37,18 +33,13 @@ export const getUserSchema = {
   summary: "Get a user",
   description: "Queries for a specific user.",
   tags: ["users"],
-  // body: z.object({
-
-  // }),
-  querystring: z.object({}),
+  operationId: "getUser",
   params: z.object({
     id: z.string(),
   }),
-  headers: z.object({}),
   response: {
     200: userSchema
       .extend({
-        statusCode: z.int(),
         followers_url: z.string(), // TODO: change to URL type when supported
         following_url: z.string(), // TODO: change to URL type when supported
         reviews_url: z.string(), // TODO: change to URL type when supported
@@ -63,13 +54,12 @@ export const getUserSchema = {
   },
 };
 
-export const createUserSchema = {
+export const registerUserSchema = {
   summary: "Create a user",
   description: "Creates a new user.",
   tags: ["users"],
-  params: z.object({}),
-  querystring: z.object({}),
-  headers: z.object({}),
+  operationId: "registerUser",
+  security: [{ bearerAuth: [] }], // TODO: add scope when supported
   body: z.object({
     username: z.string(),
     email: z.string(),
@@ -81,14 +71,21 @@ export const createUserSchema = {
     avatar_url: z.string(),
   }),
   response: {
-    200: z
+    201: z
       .object({
-        statusCode: z.int(),
+        status: z.string(),
       })
       .meta({
-        description: "200 success response for the create user handler",
+        description: "201 created response for the register user handler",
       }),
-    // 500: serverErrorSchema
+    400: z
+      .object({
+        status: z.string(),
+      })
+      .meta({
+        description:
+          "400 username is taken or invalid response for the register user handler",
+      }),
   },
 };
 
@@ -96,20 +93,16 @@ export const getFollowersSchema = {
   summary: "Get followers",
   description: "Queries for a list of followers.",
   tags: ["users"],
-  params: z.object({}),
-  querystring: z.object({}),
-  headers: z.object({}),
+  operationId: "getFollowers",
   response: {
     200: z
       .object({
-        statusCode: z.int(),
         page: paginationSchema,
         data: z.array(userSchema),
       })
       .meta({
         description: "200 success response for the get followers handler",
       }),
-    // 500: serverErrorSchema
   },
 };
 
@@ -117,20 +110,16 @@ export const getFollowingSchema = {
   summary: "Get following",
   description: "Queries for a list of following.",
   tags: ["users"],
-  params: z.object({}),
-  querystring: z.object({}),
-  headers: z.object({}),
+  operationId: "getFollowing",
   response: {
     200: z
       .object({
-        statusCode: z.int(),
         page: paginationSchema,
         data: z.array(userSchema),
       })
       .meta({
         description: "200 success response for the get following handler",
       }),
-    // 500: serverErrorSchema
   },
 };
 
@@ -138,36 +127,10 @@ export const updateUserSchema = {
   summary: "Update a user",
   description: "Updates an existing user.",
   tags: ["users"],
-  params: z.object({}),
-  querystring: z.object({}),
-  headers: z.object({}),
+  operationId: "updateUser",
   response: {
-    200: z
-      .object({
-        statusCode: z.int(),
-      })
-      .meta({
-        description: "200 success response for the update user handler",
-      }),
-    // 500: serverErrorSchema
-  },
-};
-
-export const deactivateUserSchema = {
-  summary: "Deactivate a user",
-  description: "Deactivates an existing user.",
-  tags: ["users"],
-  params: z.object({}),
-  querystring: z.object({}),
-  headers: z.object({}),
-  response: {
-    200: z
-      .object({
-        statusCode: z.int(),
-      })
-      .meta({
-        description: "200 success response for the deactivate user handler",
-      }),
-    // 500: serverErrorSchema
+    200: z.object({}).meta({
+      description: "200 success response for the update user handler",
+    }),
   },
 };
