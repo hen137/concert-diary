@@ -11,7 +11,8 @@
     "dev": "tsx watch --env-file=./env/.env.dev ./src/index.ts",
     "dev:db-reset": "pnpm dev:db-wipe && pnpm gen:db-types && pnpm gen:db-data-json && pnpm dev:db-seed",
     "dev:db-wipe": "tsx --env-file=./env/.env.dev ./db_seed/db_wipe.ts",
-    "dev:db-seed": "tsx --env-file=./env/.env.dev ./db_seed/db_seed.ts"
+    "dev:db-seed": "tsx --env-file=./env/.env.dev ./db_seed/db_seed.ts",
+    "dev:signin": "tsx ./utils/bearer-token.ts"
   },
   "keywords": [],
   "author": "",
