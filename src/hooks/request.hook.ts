@@ -17,7 +17,7 @@ async function requestHook(server: Server, options: FastifyPluginOptions) {
             
             // initiate request lifecycle with the ALS context containing the child logger
             ALS.asyncStore.run({ logger: childLogger }, () => {
-                ALS.getLogger().trace(`${logPrefix} logger context set`, request.headers);
+                ALS.getLogger().debug(request.headers, `${logPrefix} logger context set`);
 
                 // TODO: add auth flow
 
