@@ -48,10 +48,18 @@ export function buildServer() {
       dir: join(dirname(fileURLToPath(import.meta.url)), "routes"),
       routeParams: true, // enable path paramaters
       dirNameRoutePrefix: true, // uses directory structure as route prefixes
+      ignorePattern: /auth.*/, // ignore auth routes so autohooks arent assigned to them
+      autoHooks: true, // automatically register hooks in the "autohooks" file found in dir
+      cascadeHooks: true, // hooks registered in parent directories will be applied to child routes
     })
     .after((error) => {
       if (error) server.log.error(error, "Error registering routes:");
     });
+
+  server.register(autoLoad, {
+    dir: join(dirname(fileURLToPath(import.meta.url)), "routes/v1/auth"),
+    dirNameRoutePrefix: true,
+  });
 
   //Decorators
   
