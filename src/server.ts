@@ -1,4 +1,3 @@
-import type { FastifyServerOptions } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 
 import { dirname, join } from "path";
@@ -39,7 +38,7 @@ export function buildServer() {
   // Plugins
   server.register(autoLoad, {
     dir: join(dirname(fileURLToPath(import.meta.url)), "plugins"),
-    matchFilter: (path) => path.includes("plugin"),
+    // matchFilter: (path) => path.includes("plugin"),
   });
 
   // Routes
@@ -62,12 +61,12 @@ export function buildServer() {
   });
 
   //Decorators
-  
+
   // Hooks
-  server.register(autoLoad, {
-    dir: join(dirname(fileURLToPath(import.meta.url)), "hooks"),
-    matchFilter: (path) => path.includes("hook"),
-  });
+  // server.register(autoLoad, {
+  //   dir: join(dirname(fileURLToPath(import.meta.url)), "hooks"),
+  //   matchFilter: (path) => path.includes("hook"),
+  // });
 
   // Services
 
