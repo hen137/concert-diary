@@ -9,7 +9,7 @@ CREATE TABLE
         password_salt VARCHAR(255) NOT NULL,
         active BOOLEAN DEFAULT TRUE,
         email_verified BOOLEAN DEFAULT FALSE,
-        created_at           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        created_at           TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
         updated_at           TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- ON UPDATE CURRENT_TIMESTAMP,
         deactivated_at       TIMESTAMP NULL,
         activated_at         TIMESTAMP NULL
