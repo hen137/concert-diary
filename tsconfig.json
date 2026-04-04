@@ -1,14 +1,10 @@
 {
+  "include": ["src/*"],
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
-    // "paths": {
-    //   "@utils/*": [
-    //     "./tests/utils/*"
-    //   ]
-    // },
     // File Layout
-    // "rootDir": "./src",
-    // "outDir": "./dist",
+    "rootDir": "./src",
+    "outDir": "./build",
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
