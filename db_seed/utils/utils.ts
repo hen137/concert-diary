@@ -1,5 +1,5 @@
 import type { TableExpressionOrList } from "kysely";
-import type { DB } from "../../src/types/database.js";
+import type { DB } from "../../types/database.js";
 
 import fs from "fs";
 import { db } from "../database.js";

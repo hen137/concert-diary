@@ -1,5 +1,5 @@
-import type { FastifyInstance } from 'fastify';
-import type { DB } from "../../src/types/database.js";
+import type { FastifyInstance } from "fastify";
+import type { DB } from "../../types/database.js";
 
 import { beforeAll, afterAll } from '@jest/globals';
 import { buildServer } from '../../src/server.js';

@@ -19,7 +19,7 @@ import type {
   RoleTypes,
   SeriesTypes,
   SubgenresTypes,
-} from "../src/types/database.js";
+} from "../types/database.js";
 
 import fs from "fs";
 import { faker } from "@faker-js/faker";
@@ -43,7 +43,7 @@ const suffix = ".data.json";
 console.log("Generating Types as JSON...");
 
 const typesDir = destDir + "types/";
-const typeInfix = "_types"
+const typeInfix = "_types";
 
 if (!fs.existsSync(typesDir)) {
   fs.mkdirSync(typesDir, { recursive: true });

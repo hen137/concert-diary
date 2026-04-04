@@ -132,7 +132,7 @@ export interface SubgenresTypes {
 export interface UserAccounts {
   activated_at: Timestamp | null;
   active: Generated<boolean | null>;
-  created_at: Generated<Timestamp | null>;
+  created_at: Generated<Timestamp>;
   deactivated_at: Timestamp | null;
   email: string;
   email_verified: Generated<boolean | null>;
