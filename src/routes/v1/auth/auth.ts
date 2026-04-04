@@ -8,6 +8,7 @@ export default async function userRoutes(server: Server) {
     url: "*",
     schema: { summary: "Authentication" },
     async handler(request, reply) {
+      // logger.trace({ method: request.method, url: request.url }, "Auth request received");
       try {
         // Construct request URL
         const url = new URL(request.url, `http://${request.headers.host}`);
@@ -33,7 +34,7 @@ export default async function userRoutes(server: Server) {
         response.headers.forEach((value, key) => reply.header(key, value));
         reply.send(response.body ? await response.text() : null);
       } catch (error) {
-        logger.error("Authentication Error:", error);
+        // logger.error(error, "Authentication Error:");
         reply.status(500).send({
           error: "Internal authentication error",
           code: "AUTH_FAILURE",

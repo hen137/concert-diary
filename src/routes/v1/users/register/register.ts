@@ -1,14 +1,13 @@
 import type { Server } from "../../../../index.js";
 
 import { registerUserSchema } from "../../../../schemas/users.schema.js";
+import { logger } from "../../../../utils/logger.utils.js";
 
 export default async function userRoutes(server: Server) {
   server.post("", { schema: registerUserSchema }, async (request, response) => {
-    // 
-    // veryify username availabilty
-    // 
-    
-    
+    //
+    // TODO: verify username availability
+
     const reply = await server.auth.api.signUpEmail({
       body: {
         email: request.body.email,
