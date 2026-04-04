@@ -1,0 +1,32 @@
+services:
+  database:
+    image: "postgres:latest"
+    ports:
+      - 5432:5432
+    env_file: &env_dev
+      - ../env/.env.dev
+    networks:
+      - postgres-network
+      # - server-db-network
+    volumes:
+      - ./volumes/pgdb/:/var/lib/postgresql/
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 15433:80
+    env_file: *env_dev
+    depends_on:
+      - database
+    networks:
+      - postgres-network
+    volumes:
+      - ./volumes/pgadmin/:/var/lib/pgadmin/
+
+networks:
+  postgres-network:
+    driver: bridge
+
+volumes:
+  pgdb:
+  pgadmin:

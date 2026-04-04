@@ -1,0 +1,15 @@
+services:
+  server:
+    image: concert-diary:dev
+    ports:
+      - 3000:3000
+    env_file: 
+      - ../env/.env.dev
+    environment:
+      - NODE_ENV=DEV_CONTAINER
+    networks:
+      - server-network
+
+# networks:
+#   server-network:
+#     driver: bridge
