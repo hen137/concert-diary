@@ -8,7 +8,7 @@ export type Server = typeof server;
 await server
   .listen({
     port: process.env.PORT ? parseInt(process.env.PORT, 10) : 3000,
-    host: "localhost",
+    host: "0.0.0.0",
     listenTextResolver: (address) => `Server listening on ${address}`,
   })
   // .then(() => {
@@ -18,3 +18,5 @@ await server
     console.error("Error starting server:", error);
     process.exit(1);
   });
+
+  
