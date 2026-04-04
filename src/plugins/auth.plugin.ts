@@ -1,8 +1,9 @@
 // CONSIDER: https://github.com/flaviodelgrosso/fastify-better-auth
 
+import type { Server } from "../index.js";
+
 import fp from "fastify-plugin";
 import { auth } from "../utils/auth.utils.js";
-import type { Server } from "../index.js";
 
 declare module "fastify" {
   interface FastifyInstance {
