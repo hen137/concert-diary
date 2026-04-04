@@ -7,13 +7,16 @@ export const testRootGetSchema = {
   // params: z.object({}),
   // querystring: z.object({}),
   // headers: z.object({}),
-  response: {
-    200: z
-      .object({
-        statusCode: z.int(),
-      })
-      .meta({ description: "200 success response for the test handler" }),
-  },
+  // response: {
+  //   200: z
+  //     .object({})
+  //     .meta({ description: "200 success response for the test handler" }),
+  // },
+  // 401: z
+  //   .object({
+  //     message: z.string(),
+  //   })
+  //   .meta({ description: "401 unauthorized response for the test handler" }),
 };
 
 export const testRootPostSchema = {
@@ -26,7 +29,7 @@ export const testRootPostSchema = {
   body: z.object({
     email: z.string(),
     name: z.string(),
-    password: z.string()
+    password: z.string(),
   }),
   response: {
     // 200: z

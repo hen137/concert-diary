@@ -1,22 +1,24 @@
 import { z } from "zod";
-import { paginationSchema } from "./snippets/pagination.schema.js";
+import { paginationQueryString, paginationSchema } from "./snippets/pagination.schema.js";
+import { serverErrorSchema } from "./snippets/error.schemas.js";
 
 const userSchema = z.object({
-  id: z.number(),
+  user_id: z.uuid(),
   username: z.string(),
-  full_name: z.string(),
+  full_name: z.string(), // CONSIDER: split into first_name and last_name
   followers_count: z.int(),
   following_count: z.int(),
-  avatar_url: z.string(), // TODO: change to URL type when supported
-  api_link: z.string(), // TODO: change to URL type when supported
-  created_at: z.string(),
+  avatar_url: z.string(),
+  api_path: z.string(),
+  created_at: z.date(),
 });
 
 export const getUserListSchema = {
   summary: "Get list of users",
-  description: "Queries for a list of users.",
+  description: "list user profiles with pagination",
   tags: ["users"],
   operationId: "getUserList",
+  querystring: paginationQueryString,
   response: {
     200: z
       .object({
@@ -35,19 +37,20 @@ export const getUserSchema = {
   tags: ["users"],
   operationId: "getUser",
   params: z.object({
-    id: z.string(),
+    id: z.uuid(),
   }),
   response: {
     200: userSchema
       .extend({
-        followers_url: z.string(), // TODO: change to URL type when supported
-        following_url: z.string(), // TODO: change to URL type when supported
-        reviews_url: z.string(), // TODO: change to URL type when supported
+        // TODO: enforce path structure
+        followers_path: z.string(), 
+        following_path: z.string(), 
+        reviews_path: z.string(), 
       })
       .meta({ description: "200 success response for the get user handler" }),
     404: z
       .object({
-        statusCode: z.int(),
+        status: z.string(),
       })
       .meta({ description: "404 not found response for the get user handler" }),
     // 500: serverErrorSchema
@@ -68,7 +71,7 @@ export const registerUserSchema = {
     last_name: z.string(),
     gender: z.string(),
     date_of_birth: z.date(),
-    avatar_url: z.string(),
+    avatar_url: z.string().optional(),
   }),
   response: {
     201: z
@@ -129,7 +132,9 @@ export const updateUserSchema = {
   tags: ["users"],
   operationId: "updateUser",
   response: {
-    200: z.object({}).meta({
+    200: z.object({
+      status: z.string(),
+    }).meta({
       description: "200 success response for the update user handler",
     }),
   },
