@@ -1,5 +1,5 @@
 import type { FastifyInstance, FastifyPluginOptions } from "fastify";
-import type { DB } from "../types/database.js";
+import type { DB } from "../../types/database.js";
 
 import fp from "fastify-plugin";
 import { Pool } from "pg";
@@ -20,7 +20,10 @@ async function pgDatabase(
     const db = new Kysely<DB>({
       dialect: new PostgresDialect({
         pool: new Pool({
-          host: server.env.POSTGRES_HOST,
+          host:
+            process.env.NODE_ENV == "DEV_CONTAINER"
+              ? "database"
+              : server.env.POSTGRES_HOST,
           port: server.env.POSTGRES_PORT,
           user: server.env.POSTGRES_USER,
           password: server.env.POSTGRES_PASSWORD,
