@@ -94,7 +94,7 @@ if (!fs.existsSync(primaryEntitiesDir)) {
   fs.mkdirSync(primaryEntitiesDir, { recursive: true });
 }
 
-// FIXME: Kysely type imcompatabilities
+// FIX: Kysely type imcompatabilities
 // TODO: generate case specific entities and relationships
 
 const artistsValues: Artists[] = [];
@@ -182,7 +182,7 @@ jsonFromArray(
 );
 
 const usersAccountsValues: UserAccounts[] = [];
-for (let i = 0; i < 19; i++) {
+for (let i = 0; i < 50; i++) {
   usersAccountsValues.push({
     user_id: faker.string.uuid(),
     role_id: faker.number.int({ min: 2, max: roleTypes.length }),

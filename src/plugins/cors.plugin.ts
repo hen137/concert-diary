@@ -9,7 +9,7 @@ async function corsPlugin(server: Server, options: FastifyPluginOptions) {
     await server.register(cors, {
       // Fastify CORS options: https://github.com/fastify/fastify-cors?tab=readme-ov-file#options
       // TODO: configure CORS options
-      origin: "http://localhost:3000",
+      origin: ["http://localhost:3000"],
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
       credentials: true,

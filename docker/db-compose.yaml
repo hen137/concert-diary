@@ -7,7 +7,6 @@ services:
       - ../env/.env.dev
     networks:
       - postgres-network
-      # - server-db-network
     volumes:
       - ./volumes/pgdb/:/var/lib/postgresql/
 
