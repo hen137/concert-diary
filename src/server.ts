@@ -8,16 +8,14 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from "fastify-type-provider-zod";
-import { auth } from "./utils/auth.utils.js";
 
 // Fastify server factory function
 export function buildServer() {
-  // the server object, modifed to use the ZodTypeProvider for schema validation, serialization and type inference in routes
   const server = Fastify({
     // Fastify Server options: https://deepwiki.com/fastify/fastify/2.2-fastify-instance-api#core-properties
     // TODO: expand server options
     logger: {
-      level: "trace",
+      level: process.env.LOG_LEVEL!,
       transport: {
         target: "pino-pretty",
         options: {
@@ -27,10 +25,9 @@ export function buildServer() {
       },
     },
     genReqId(_req) {
-      // generates a random 10 character string ensuring unique request ids
-      return Math.random().toString(36).substring(2, 12);
+      return Math.random().toString(36).substring(2, 12); // generates a random 10 character string ensuring unique request ids
     },
-  }).withTypeProvider<ZodTypeProvider>();
+  }).withTypeProvider<ZodTypeProvider>(); // uses ZodTypeProvider for schema validation, serialization and type inference in routes
 
   server.setValidatorCompiler(validatorCompiler);
   server.setSerializerCompiler(serializerCompiler);
@@ -63,10 +60,6 @@ export function buildServer() {
   //Decorators
 
   // Hooks
-  // server.register(autoLoad, {
-  //   dir: join(dirname(fileURLToPath(import.meta.url)), "hooks"),
-  //   matchFilter: (path) => path.includes("hook"),
-  // });
 
   // Services
 
