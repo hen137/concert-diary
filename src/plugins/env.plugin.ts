@@ -26,8 +26,13 @@ async function envPlugin(server: Server, options: FastifyPluginOptions) {
                 type: 'object',
                 required: ['PORT', 'POSTGRES_HOST', 'POSTGRES_DB', 'POSTGRES_USER', 'POSTGRES_PASSWORD'],
                 properties: {
+                    // TODO: expand
                     PORT: {
                         type: 'number',
+                        default: 3000
+                    },
+                    HOST: {
+                        type: 'string',
                     },
                     POSTGRES_HOST: {
                         type: 'string'
