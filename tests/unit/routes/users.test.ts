@@ -1,96 +1,136 @@
+import supertest from "supertest";
 import { manageServer, manageDatabase } from "../../utils/managers.js";
 
 // TODO: Implement tests
 
-describe('User Route Tests', () => {
+type PaginationResponse = {
+  page: object;
+  data: object;
+};
 
-    const { getServer } = manageServer();
-    const { getDb } = manageDatabase();
+describe("User Route Tests", () => {
+  const { getServer } = manageServer();
+  const { getDb } = manageDatabase();
 
-    describe('/users', () => {
-        describe('GET', () => {
-            describe('Positive Cases', () => {
-                test('placeholder', () => {
-                    // expect(true).toBe(true); // Placeholder test
-                    const app = getServer();
-                    const db = getDb();
+  describe("/users", () => {
+    describe("GET", () => {
+      describe("Positive Cases", () => {
+        test("Cursor Pagination: default cursor and limit", async () => {
+          // Arrange
+          const server = getServer();
+          const db = getDb();
 
-                    var resp = db.selectFrom('user_profiles').execute().then(users => {
-                        console.log('Users from database:', users);
-                    })
-                    expect(resp).resolves.toBeDefined();
-                })
-            })
+          // populate db with relavent data
 
-            describe('Negative Cases', () => {
-                //tests
-            })
-        })
+          // Act
+          const resp = await supertest(server.server)
+            .get("/v1/users")
+            // .set('Authentication', `Bearer ${process.env.SERVER_AUTH}`)
+            .expect(200);
+          console.log(resp);
 
-        describe('POST', () => {
-            describe('Positive Cases', () => {
-                //tests
-            })
+          // Assert
+          expect(resp.body).toMatchObject({ page: {}, data: {} });
+        });
 
-            describe('Negative Cases', () => {
-                //tests
-            })
-        })
-    })
+        test("Cursor Pagination: ", () => {
+          const server = getServer();
+          const db = getDb();
 
-    describe('/users/:id', () => {
-        describe('GET', () => {
-            describe('Positive Cases', () => {
-                //tests
-            })
+          // fill db with data
 
-            describe('Negative Cases', () => {
-                //tests
-            })
-        })
+          // mock request w/ supertest
 
-        describe('PUT', () => {
-            describe('Positive Cases', () => {
-                //tests
-            })
+          // assert success
+          expect(true).toBeTruthy();
+        });
+      });
 
-            describe('Negative Cases', () => {
-                //tests
-            })
-        })
+      describe("Negative Cases", () => {
+        test("placeholder", () => {
+          // Arrange
+          const server = getServer();
+          const db = getDb();
 
-        describe('DELETE', () => {
-            describe('Positive Cases', () => {
-                //tests
-            })
+          // Act
 
-            describe('Negative Cases', () => {
-                //tests
-            })
-        })
-    })
+          // Assert
+        });
+      });
+    });
+  });
 
-    describe('/users/:id/followers', () => {
-        describe('GET', () => {
-            describe('Positive Cases', () => {
-                //tests
-            })
+  describe("/users/register", () => {
+    describe("POST", () => {
+      describe("Positive Cases", () => {
+        test("placeholder", () => {
+          // Arrange
+          const server = getServer();
+          const db = getDb();
 
-            describe('Negative Cases', () => {
-                //tests
-            })
-        })
-    })
+          // Act
 
-    describe('/users/:id/following', () => {
-        describe('GET', () => {
-            describe('Positive Cases', () => {
-                //tests
-            })
+          // Assert
+        });
+      });
 
-            describe('Negative Cases', () => {
-                //tests
-            })
-        })
-    })
-})
+      describe("Negative Cases", () => {
+        test("placeholder", () => {
+          // Arrange
+          const server = getServer();
+          const db = getDb();
+
+          // Act
+
+          // Assert
+        });
+      });
+    });
+  });
+
+  describe("/users/:id", () => {
+    describe("GET", () => {
+      describe("Positive Cases", () => {
+        //tests
+      });
+
+      describe("Negative Cases", () => {
+        //tests
+      });
+    });
+
+    describe("PUT", () => {
+      describe("Positive Cases", () => {
+        //tests
+      });
+
+      describe("Negative Cases", () => {
+        //tests
+      });
+    });
+  });
+
+  describe("/users/:id/followers", () => {
+    describe("GET", () => {
+      describe("Positive Cases", () => {
+        //tests
+      });
+
+      describe("Negative Cases", () => {
+        //tests
+      });
+    });
+  });
+
+  describe("/users/:id/following", () => {
+    describe("GET", () => {
+      describe("Positive Cases", () => {
+        //tests
+      });
+
+      describe("Negative Cases", () => {
+        //tests
+      });
+    });
+  });
+});
