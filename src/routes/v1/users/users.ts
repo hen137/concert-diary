@@ -6,6 +6,7 @@ import { logger } from "../../../utils/logger.utils.js";
 export default async function userRoutes(server: Server) {
   server.get("", { schema: getUserListSchema }, async (request, response) => {
     // CONSIDER: add support for offset/page pagination
+    // TODO: implement error handling
     // TODO: implement sorting and filtering
     // TODO: add support for first and last page cursors
 
@@ -32,7 +33,7 @@ export default async function userRoutes(server: Server) {
       .limit(limit + 1);
 
     // FIX: ugly, will need to refactor - see optimize comment below
-    var prevAccountData: { user_id: string; created_at: Date | null }[] = [];
+    var prevAccountData: { user_id: string; created_at: Date }[] = [];
 
     if (cursor) {
       const cursorDecoded = atob(cursor);
