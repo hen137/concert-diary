@@ -42,63 +42,72 @@ import eventReviewLikesValues from "./data/primary_entities/event_review_likes_p
 // relationship tables
 
 // types
-console.log("Populating Type Tables...");
+export async function seedTypes() {
+  console.log("Populating Type Tables...");
 
-await db.insertInto("artist_types").values(artistTypes).execute();
-await db.insertInto("venue_types").values(venueTypes).execute();
-await db.insertInto("series_types").values(seriesTypes).execute();
-await db.insertInto("event_types").values(eventTypes).execute();
+  await db.insertInto("artist_types").values(artistTypes).execute();
+  await db.insertInto("venue_types").values(venueTypes).execute();
+  await db.insertInto("series_types").values(seriesTypes).execute();
+  await db.insertInto("event_types").values(eventTypes).execute();
 
-await db
-  .insertInto("hash_algorithm_types")
-  .values(hashAlgorithmTypes)
-  .execute();
-await db.insertInto("role_types").values(roleTypes).execute();
-await db.insertInto("relationship_types").values(relationshipTypes).execute();
+  await db
+    .insertInto("hash_algorithm_types")
+    .values(hashAlgorithmTypes)
+    .execute();
+  await db.insertInto("role_types").values(roleTypes).execute();
+  await db.insertInto("relationship_types").values(relationshipTypes).execute();
 
-await db.insertInto("genre_types").values(genreTypes).execute();
-// await db.insertInto('subgenres_types').values(subgenresTypes).execute();
+  await db.insertInto("genre_types").values(genreTypes).execute();
+  // await db.insertInto('subgenres_types').values(subgenresTypes).execute();
+}
 
 // primary entity tables
-// TODO: make idempotent
-console.log("Populating Primary Entity Tables...");
+export async function seedPrimaryEntities() {
+  // TODO: make idempotent
+  console.log("Populating Primary Entity Tables...");
 
-await db.insertInto("artists").values(artistsValues).execute();
-await db.insertInto("series").values(seriesValues).execute();
-await db.insertInto("venues").values(venuesValues).execute();
-await db.insertInto("setlists").values(setlistsValues).execute();
+  await db.insertInto("artists").values(artistsValues).execute();
+  await db.insertInto("series").values(seriesValues).execute();
+  await db.insertInto("venues").values(venuesValues).execute();
+  await db.insertInto("setlists").values(setlistsValues).execute();
 
-await db.insertInto("events").values(eventsValues).execute();
+  await db.insertInto("events").values(eventsValues).execute();
 
-await db.insertInto("user_accounts").values(usersAccountsValues).execute();
-await db.insertInto("user_profiles").values(userProfilesValues).execute();
-// await db.insertInto('user_accounts').values(adminUser).execute();
-// await db.insertInto('user_profiles').values({
-//     user_id: adminUser.user_id,
-//     date_of_birth: faker.date.past(),
-//     first_name: faker.person.firstName(),
-//     last_name: faker.person.lastName(),
-//     gender: faker.person.gender(),
-//     address_line: faker.location.streetAddress(),
-//     city: faker.location.city(),
-//     country: faker.location.country(),
-// }).execute();
+  await db.insertInto("user_accounts").values(usersAccountsValues).execute();
+  await db.insertInto("user_profiles").values(userProfilesValues).execute();
+  // await db.insertInto('user_accounts').values(adminUser).execute();
+  // await db.insertInto('user_profiles').values({
+  //     user_id: adminUser.user_id,
+  //     date_of_birth: faker.date.past(),
+  //     first_name: faker.person.firstName(),
+  //     last_name: faker.person.lastName(),
+  //     gender: faker.person.gender(),
+  //     address_line: faker.location.streetAddress(),
+  //     city: faker.location.city(),
+  //     country: faker.location.country(),
+  // }).execute();
 
-await db.insertInto("venue_reviews").values(venueReviewsValues).execute();
-await db.insertInto("event_reviews").values(eventReviewsValues).execute();
-await db
-  .insertInto("venue_review_likes")
-  .values(venueReviewLikesValues)
-  .execute();
-await db
-  .insertInto("event_review_likes")
-  .values(eventReviewLikesValues)
-  .execute();
+  await db.insertInto("venue_reviews").values(venueReviewsValues).execute();
+  await db.insertInto("event_reviews").values(eventReviewsValues).execute();
+  await db
+    .insertInto("venue_review_likes")
+    .values(venueReviewLikesValues)
+    .execute();
+  await db
+    .insertInto("event_review_likes")
+    .values(eventReviewLikesValues)
+    .execute();
+}
 
 // relationships
-console.log("Populating Relationship Tables...");
+export async function seedRelationships() {
+  console.log("Populating Relationship Tables...");
 
-// TODO: insert relationship data
-// await db.insertInto("").values().execute();
+  // TODO: insert relationship data
+  // await db.insertInto("").values().execute();
+}
 
+seedTypes();
+seedPrimaryEntities();
+seedRelationships();
 db.destroy();
