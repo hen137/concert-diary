@@ -14,3 +14,6 @@ db_seed/data
 
 # Builds
 build
+
+# Tests
+coverage
