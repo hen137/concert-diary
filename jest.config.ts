@@ -1,17 +1,26 @@
-import type { Config } from 'jest';
-
-import { createDefaultEsmPreset } from 'ts-jest';
-
-const presetConfig = createDefaultEsmPreset({});
-
-const config: Config = {
-  ...presetConfig,
-  testEnvironment: 'node',
-
-  globalSetup: '<rootDir>/tests/utils/global-setup.ts',
+export default {
+  preset: "ts-jest",
+  testEnvironment: "node",
+  rootDir: ".",
+  // roots: ["<rootDir>", "<rootDir>/db_seed", "<rootDir>/src"],
+  transform: {
+    "^.+\\.[tj]s$": ["ts-jest", { useESM: true }],
+  },
+  extensionsToTreatAsEsm: [".ts"],
+  moduleFileExtensions: ["ts", "js"],
+  moduleNameMapper: {
+    "^(\\.{1,2}/.*)\\.js$": "$1",
+  },
+  globalSetup: "<rootDir>/tests/utils/global-setup.ts",
   globalTeardown: "<rootDir>/tests/utils/global-teardown.ts",
-  modulePaths: ['<rootDir>/src/', '<rootDir>/tests/'],
-  // moduleDirectories: ['node_modules', '<rootDir>/src/', '<rootDir>/tests/'],
+  coveragePathIgnorePatterns: [
+    "node_modules",
+    "<rootDir>/src/index.ts",
+    "<rootDir>/src/handlers",
+    "<rootDir>/src/schemas",
+    "<rootDir>/src/routes/tests",
+  ],
+  collectCoverageFrom: ["src/**/*.ts"],
+  // moduleDirectories: ["node_modules", "db_seed", "src"],
+  // modulePaths: ["<rootDir>", "<rootDir>/db_seed", "<rootDir>/src"],
 };
-
-export default config;

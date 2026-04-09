@@ -1,48 +1,36 @@
 {
-  "include": ["src/*"],
-  // Visit https://aka.ms/tsconfig to read more about this file
+  "include": [
+    "src/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "tests",
+    "db_seed"
+  ],
   "compilerOptions": {
-    // File Layout
+    "types": ["node", "jest"],
     "rootDir": "./src",
     "outDir": "./build",
-    // Environment Settings
-    // See also https://aka.ms/tsconfig/module
+    // "paths": {
+    //   "db_seed/*": [
+    //     "./db_seed/*"
+    //   ]
+    // },
     "module": "nodenext",
-    // "target": "esnext",
-    // "types": [
-    //   "node",
-    //   "jest"
-    // ],
-    // For nodejs:
-    // "lib": ["esnext"],
-    // "types": ["node"],
-    // and npm install -D @types/node
-    // Other Outputs
+    "target": "ESNext",
+    "moduleResolution": "nodenext",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
-    // Style Options
-    // "noImplicitReturns": true,
-    // "noImplicitOverride": true,
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": true,
-    // "noFallthroughCasesInSwitch": true,
-    // "noPropertyAccessFromIndexSignature": true,
-    "moduleResolution": "nodenext",
-    "esModuleInterop": true,
-    // Recommended Options
-    "strict": true,
-    // "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
   },
-  // "ts-node": {
-  //   "esm": true,
-  // },
 }
