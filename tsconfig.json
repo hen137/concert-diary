@@ -1,16 +1,16 @@
 {
-  "include": [
-    "src/*"
-  ],
+  "include": ["src/**/*", "tests/**/*"],
   "exclude": [
     "node_modules",
     "build",
-    "tests",
-    "db_seed"
+    "db_seed",
+    ".husky",
+    "docker",
+    "scripts"
   ],
   "compilerOptions": {
     "types": ["node", "jest"],
-    "rootDir": "./src",
+    "rootDir": ".",
     "outDir": "./build",
     // "paths": {
     //   "db_seed/*": [
@@ -31,6 +31,6 @@
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
-  },
+    "moduleDetection": "force"
+  }
 }
