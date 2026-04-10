@@ -15,6 +15,8 @@
     "dev:build-and-run-containers": "pnpm dev:build-server-container && pnpm dev:all-containers",
     "dev:kill-all-containers": "docker compose -f docker/compose.yaml down",
     "dev:build-server-container": "docker build -f ./docker/dev.Dockerfile -t concert-diary:dev .",
+    "dev:db-containers": "docker compose -f docker/db-compose.yaml up -d",
+    "dev:kill-db-container": "docker compose -f docker/db-compose.yaml down",
     "dev:db-reset": "pnpm dev:db-wipe && pnpm gen:db-types && pnpm gen:db-data-json && pnpm dev:db-seed",
     "dev:db-wipe": "tsx --env-file=./env/.env.dev ./db_seed/db_wipe.ts",
     "dev:db-seed": "tsx --env-file=./env/.env.dev ./db_seed/db_seed.ts",
