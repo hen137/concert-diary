@@ -1,6 +1,13 @@
-import { z } from "zod";
-import { paginationQueryString, paginationSchema } from "./snippets/pagination.schema.js";
-import { serverErrorSchema } from "./snippets/error.schemas.js";
+import { z } from 'zod'
+import {
+  paginationQueryString,
+  paginationSchema,
+} from './snippets/pagination.schema.js'
+import {
+  badRequestSchema,
+  internalServerErrorSchema,
+  notFoundSchema,
+} from './snippets/error.schemas.js'
 
 const userSchema = z.object({
   user_id: z.uuid(),
@@ -11,13 +18,13 @@ const userSchema = z.object({
   avatar_url: z.string(),
   api_path: z.string(),
   created_at: z.date(),
-});
+})
 
 export const getUserListSchema = {
-  summary: "Get list of users",
-  description: "list user profiles with pagination",
-  tags: ["users"],
-  operationId: "getUserList",
+  summary: 'Get list of users',
+  description: 'list user profiles with pagination',
+  tags: ['users'],
+  operationId: 'getUserList',
   querystring: paginationQueryString,
   response: {
     200: z
@@ -26,16 +33,23 @@ export const getUserListSchema = {
         data: z.array(userSchema),
       })
       .meta({
-        description: "200 success response for the get user list handler",
+        description: '200 success response',
       }),
+    400: badRequestSchema.extend({
+      message: z.literal('Malformed cursor'),
+    }),
+    404: notFoundSchema.extend({
+      message: z.literal('User does not exist').default,
+    }),
+    500: internalServerErrorSchema,
   },
-};
+}
 
 export const getUserSchema = {
-  summary: "Get a user",
-  description: "Queries for a specific user.",
-  tags: ["users"],
-  operationId: "getUser",
+  summary: 'Get a user',
+  description: 'Queries for a specific user.',
+  tags: ['users'],
+  operationId: 'getUser',
   params: z.object({
     id: z.uuid(),
   }),
@@ -43,25 +57,23 @@ export const getUserSchema = {
     200: userSchema
       .extend({
         // TODO: enforce path structure
-        followers_path: z.string(), 
-        following_path: z.string(), 
-        reviews_path: z.string(), 
+        followers_path: z.string(),
+        following_path: z.string(),
+        reviews_path: z.string(),
       })
-      .meta({ description: "200 success response for the get user handler" }),
-    404: z
-      .object({
-        status: z.string(),
-      })
-      .meta({ description: "404 not found response for the get user handler" }),
+      .meta({ description: '200 success response for the get user handler' }),
+    404: notFoundSchema.extend({
+      message: z.literal('User does not exist').default,
+    }),
     // 500: serverErrorSchema
   },
-};
+}
 
 export const registerUserSchema = {
-  summary: "Create a user",
-  description: "Creates a new user.",
-  tags: ["users"],
-  operationId: "registerUser",
+  summary: 'Create a user',
+  description: 'Creates a new user.',
+  tags: ['users'],
+  operationId: 'registerUser',
   security: [{ bearerAuth: [] }], // TODO: add scope when supported
   body: z.object({
     username: z.string(),
@@ -79,7 +91,7 @@ export const registerUserSchema = {
         status: z.string(),
       })
       .meta({
-        description: "201 created response for the register user handler",
+        description: '201 created response for the register user handler',
       }),
     400: z
       .object({
@@ -87,16 +99,16 @@ export const registerUserSchema = {
       })
       .meta({
         description:
-          "400 username is taken or invalid response for the register user handler",
+          '400 username is taken or invalid response for the register user handler',
       }),
   },
-};
+}
 
 export const getFollowersSchema = {
-  summary: "Get followers",
-  description: "Queries for a list of followers.",
-  tags: ["users"],
-  operationId: "getFollowers",
+  summary: 'Get followers',
+  description: 'Queries for a list of followers.',
+  tags: ['users'],
+  operationId: 'getFollowersList',
   response: {
     200: z
       .object({
@@ -104,16 +116,16 @@ export const getFollowersSchema = {
         data: z.array(userSchema),
       })
       .meta({
-        description: "200 success response for the get followers handler",
+        description: '200 success response for the get followers handler',
       }),
   },
-};
+}
 
 export const getFollowingSchema = {
-  summary: "Get following",
-  description: "Queries for a list of following.",
-  tags: ["users"],
-  operationId: "getFollowing",
+  summary: 'Get following',
+  description: 'Queries for a list of following.',
+  tags: ['users'],
+  operationId: 'getFollowingList',
   response: {
     200: z
       .object({
@@ -121,21 +133,23 @@ export const getFollowingSchema = {
         data: z.array(userSchema),
       })
       .meta({
-        description: "200 success response for the get following handler",
+        description: '200 success response for the get following handler',
       }),
   },
-};
+}
 
 export const updateUserSchema = {
-  summary: "Update a user",
-  description: "Updates an existing user.",
-  tags: ["users"],
-  operationId: "updateUser",
+  summary: 'Update a user',
+  description: 'Updates an existing user.',
+  tags: ['users'],
+  operationId: 'updateUser',
   response: {
-    200: z.object({
-      status: z.string(),
-    }).meta({
-      description: "200 success response for the update user handler",
-    }),
+    200: z
+      .object({
+        status: z.string(),
+      })
+      .meta({
+        description: '200 success response for the update user handler',
+      }),
   },
-};
+}

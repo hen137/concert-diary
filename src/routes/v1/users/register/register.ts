@@ -1,22 +1,10 @@
-import type { Server } from "../../../../index.js";
+import type { Server } from '../../../../index.js'
 
-import { registerUserSchema } from "../../../../schemas/users.schema.js";
-import { logger } from "../../../../utils/logger.utils.js";
-
+import { registerUserSchema } from '../../../../schemas/users.schema.js'
+import { registerUserHandler } from '../../../../handlers/users.handlers.js'
 export default async function userRoutes(server: Server) {
-  server.post("", { schema: registerUserSchema }, async (request, response) => {
-    //
-    // TODO: verify username availability
+  // server.setErrorHandler()
+  // server.setNotFoundHandler()
 
-    const reply = await server.auth.api.signUpEmail({
-      body: {
-        email: request.body.email,
-        name: request.body.first_name + " " + request.body.last_name,
-        password: request.body.password_hash,
-      },
-      returnHeaders: true,
-    });
-
-    response.headers({ SetCookie: reply.headers.getSetCookie() });
-  });
+  server.post('', { schema: registerUserSchema }, registerUserHandler)
 }
