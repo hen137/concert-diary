@@ -1,18 +1,18 @@
-import type { Server } from "../index.js";
+import type { Server } from '../index.js';
 
-import fp from "fastify-plugin";
-import { fromNodeHeaders } from "better-auth/node";
-import { ALS } from "../utils/als.utils.js";
-import { logger } from "../utils/logger.utils.js";
-import { session } from "../utils/session.utils.js";
+import fp from 'fastify-plugin';
+import { fromNodeHeaders } from 'better-auth/node';
+import { ALS } from '../utils/als.utils.js';
+import { logger } from '../utils/logger.utils.js';
+import { session } from '../utils/session.utils.js';
 
 async function routesHooks(server: Server) {
   try {
-    server.addHook("onRequest", (request, response, next) => {
-      const logPrefix = "[onRequest hook]";
+    server.addHook('onRequest', (request, response, next) => {
+      const logPrefix = '[onRequest hook]';
 
       // create a child logger for the request, using the route summary as context
-      const summary = request.routeOptions.schema?.summary || "";
+      const summary = request.routeOptions.schema?.summary || '';
       const childLogger = request.log.child({ api: summary });
       request.log = childLogger;
 
@@ -24,31 +24,33 @@ async function routesHooks(server: Server) {
       });
     });
 
-    process.env.NODE_ENV != "DEVELOPMENT" &&
-      server.addHook("preHandler", async (request, response) => {
-        const logPrefix = "[preHandler hook]";
+    if (process.env.NODE_ENV != 'development') {
+      // bybass authentication in development
+      server.addHook('preHandler', async (request, response) => {
+        const logPrefix = '[preHandler hook]';
         logger.debug({ headers: request.headers }, `${logPrefix}`);
 
         // authenticate request and set session in context
         session.setSession(
           await server.auth.api.getSession({
             headers: fromNodeHeaders(request.headers),
-          }),
+          })
         );
 
         // reject if authentication fails
         if (!session.getSession()) {
           response.status(401);
-          return response.send({ error: "Unauthorized Request" });
+          return response.send({ error: 'Unauthorized Request' });
         }
 
         logger.debug(
           { session: session.getSession() },
-          `${logPrefix} session retrieved and set in context`,
+          `${logPrefix} session retrieved and set in context`
         );
       });
+    }
   } catch (error) {
-    server.log.error(error, "Error registering request hooks:");
+    server.log.error(error, 'Error registering request hooks:');
   }
 }
 
