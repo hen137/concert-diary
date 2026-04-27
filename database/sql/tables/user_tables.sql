@@ -22,7 +22,7 @@ CREATE TABLE
         last_name VARCHAR(50) NOT NULL,
         gender VARCHAR(20) NULL,
         date_of_birth DATE NULL,
-        phone_number VARCHAR(20) NULL,
+        phone_number VARCHAR(50) NULL,
         address_line VARCHAR(100) NULL,
         city VARCHAR(100) NULL,
         region VARCHAR(50) NULL,

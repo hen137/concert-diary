@@ -37,7 +37,7 @@ import {
   venueTypes,
 } from './utils/static_data.js';
 
-const destDir = './db_seed/data/';
+const destDir = './database/db_seed/data/';
 const suffix = '.data.json';
 
 // FIX: Kysely type imcompatabilities

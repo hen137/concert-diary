@@ -1,6 +1,5 @@
-import type { DB } from '../src/types/database.js';
+import type { DB } from '../../src/types/database.js';
 import { db } from './database.js';
-// import { v7 as uuidv7 } from 'uuid';
 
 import artistTypes from './data/types/artists_types.data.json' with { type: 'json' };
 import venueTypes from './data/types/venues_types.data.json' with { type: 'json' };
@@ -47,7 +46,7 @@ async function insertData(table_values: { [key in keyof DB]?: unknown[] }) {
   for (const [table, values] of Object.entries(table_values)) {
     if (values) {
       await db
-        .insertInto(table)
+        .insertInto(table as keyof DB)
         .values(values)
         .onConflict((oc) => oc.doNothing())
         .execute();
