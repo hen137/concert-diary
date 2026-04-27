@@ -1,11 +1,11 @@
 services:
   database:
-    image: "postgres:latest"
+    image: 'postgres:latest'
     ports:
       - 5432:5432
     env_file: &env_dev
-      - ../env/.env.dev
-    networks:
+      - ../../env/.env.dev
+    networks: &pg_network
       - postgres-network
     volumes:
       - ./volumes/pgdb/:/var/lib/postgresql/
@@ -17,8 +17,7 @@ services:
     env_file: *env_dev
     depends_on:
       - database
-    networks:
-      - postgres-network
+    networks: *pg_network
     volumes:
       - ./volumes/pgadmin/:/var/lib/pgadmin/
 

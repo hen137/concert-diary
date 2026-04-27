@@ -24,7 +24,7 @@ CREATE TABLE
         date_of_birth DATE NULL,
         phone_number VARCHAR(20) NULL,
         address_line VARCHAR(100) NULL,
-        city VARCHAR(50) NULL,
+        city VARCHAR(100) NULL,
         region VARCHAR(50) NULL,
         postal_code VARCHAR(20) NULL,
         country VARCHAR(50) NULL,

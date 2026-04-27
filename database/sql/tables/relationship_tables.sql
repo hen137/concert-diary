@@ -1,10 +1,9 @@
 CREATE TABLE
     user_relationships (
-        follower_id UUID NOT NULL REFERENCES user_accounts (user_id),
-        following_id UUID NOT NULL REFERENCES user_accounts (user_id),
+        initiator_id UUID NOT NULL REFERENCES user_accounts (user_id),
+        target_id UUID NOT NULL REFERENCES user_accounts (user_id),
         relationship_type_id INT NOT NULL REFERENCES relationship_types (type_id),
-        datetime_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY (follower_id, following_id)
+        PRIMARY KEY (initiator_id, target_id)
     );
 
 CREATE TABLE
