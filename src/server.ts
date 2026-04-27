@@ -1,13 +1,13 @@
-import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
-import Fastify from "fastify";
-import autoLoad from "@fastify/autoload";
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+import Fastify from 'fastify';
+import autoLoad from '@fastify/autoload';
 import {
   serializerCompiler,
   validatorCompiler,
-} from "fastify-type-provider-zod";
+} from 'fastify-type-provider-zod';
 
 // Fastify server factory function
 export function buildServer() {
@@ -17,10 +17,10 @@ export function buildServer() {
     logger: {
       level: process.env.LOG_LEVEL!,
       transport: {
-        target: "pino-pretty",
+        target: 'pino-pretty',
         options: {
           colorize: true,
-          translateTime: "HH:MM:ss Z",
+          translateTime: 'HH:MM:ss Z',
         },
       },
     },
@@ -34,26 +34,26 @@ export function buildServer() {
 
   // Plugins
   server.register(autoLoad, {
-    dir: join(dirname(fileURLToPath(import.meta.url)), "plugins"),
+    dir: join(dirname(fileURLToPath(import.meta.url)), 'plugins'),
     // matchFilter: (path) => path.includes("plugin"),
   });
 
   // Routes
   server
     .register(autoLoad, {
-      dir: join(dirname(fileURLToPath(import.meta.url)), "routes"),
+      dir: join(dirname(fileURLToPath(import.meta.url)), 'routes'),
       routeParams: true, // enable path paramaters
       dirNameRoutePrefix: true, // uses directory structure as route prefixes
       ignorePattern: /auth.*/, // ignore auth routes so autohooks arent assigned to them
-      autoHooks: true, // automatically register hooks in the "autohooks" file found in dir
+      autoHooks: true, // automatically register hooks from autohooks.ts found in dir
       cascadeHooks: true, // hooks registered in parent directories will be applied to child routes
     })
     .after((error) => {
-      if (error) server.log.error(error, "Error registering routes:");
+      if (error) server.log.error(error, 'Error registering routes:');
     });
 
   server.register(autoLoad, {
-    dir: join(dirname(fileURLToPath(import.meta.url)), "routes/v1/auth"),
+    dir: join(dirname(fileURLToPath(import.meta.url)), 'routes/v1/auth'),
     dirNameRoutePrefix: true,
   });
 
