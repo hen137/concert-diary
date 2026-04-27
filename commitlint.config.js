@@ -9,7 +9,18 @@ const config = {
     'type-enum': [
       2,
       'always',
-      ['feat', 'fix', 'build', 'chore', 'ci', 'style', 'refactor'],
+      [
+        'feat',
+        'fix',
+        'build',
+        'chore',
+        'ci',
+        'style',
+        'refactor',
+        'docs',
+        'test',
+        'perf',
+      ],
     ],
 
     // Subject/Description Rules:
@@ -38,6 +49,6 @@ const config = {
     // Enforce that if a scope is used, it is in lower-case.
     'scope-case': [2, 'always', 'lower-case'],
   },
-}
+};
 
-export default config
+export default config;
