@@ -60,7 +60,7 @@ export interface Events {
   event_end_date: Timestamp | null;
   event_id: Generated<string>;
   event_name: string;
-  event_time: string | null;
+  event_time: Timestamp | null;
   img_url: string | null;
   series_id: string;
   setlist_id: string | null;

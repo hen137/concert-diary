@@ -1,11 +1,27 @@
-import { z } from 'zod'
+import { z } from 'zod';
+import { badRequestSchema } from './error.schemas.js';
 
-export const cursorSchema = z.object({
+export const userCursorSchema = z.object({
+  // camelCase, used internally
   userId: z.uuid(),
   createdAt: z.string().transform((val) => new Date(val)),
-})
+});
 
-export const paginationQueryString = z.object({
+export const malformedLimitSchema = badRequestSchema.extend({
+  message: z.literal('Malformed limit'),
+});
+
+export const malformedCursorSchema = badRequestSchema.extend({
+  message: z.literal('Malformed cursor'),
+});
+
+export const malformedPaginationSchema = z
+  .union([malformedCursorSchema, malformedLimitSchema])
+  .meta({
+    description: '400 malformed query parameter response',
+  });
+
+export const paginationQueryStringSchema = z.object({
   limit: z.coerce
     .number()
     .int()
@@ -13,16 +29,16 @@ export const paginationQueryString = z.object({
     .default(10)
     .meta({ description: 'Number of items to return per page for pagination' }),
   cursor: z
-    .string()
+    .base64()
     .default('')
     .meta({ description: 'Cursor for pagination, encoded as base64 string' }),
-})
+});
 
 export const paginationSchema = z.object({
-  cursor: z.string(),
-  limit: z.number(),
-  //   first_cursor: z.string(),
-  //   last_cursor: z.string(),
-  next_cursor: z.string(),
-  previous_cursor: z.string(),
-})
+  cursor: z.base64(),
+  limit: z.number().min(0).max(100).default(10),
+  // first_cursor: z.base64(),
+  // last_cursor: z.base64(),
+  next_cursor: z.base64(),
+  previous_cursor: z.base64(),
+});
