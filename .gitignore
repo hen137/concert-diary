@@ -7,13 +7,14 @@ env/
 .env.*
 
 # Docker Volumes
-docker/volumes/
+**/volumes/
 
 # Generated
-db_seed/data
+**/db_seed/data
 
 # Builds
 build
 
 # Tests
 coverage
+bruno
