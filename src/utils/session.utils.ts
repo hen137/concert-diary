@@ -1,8 +1,10 @@
-import { ALS } from "./als.utils.js";
+import type { AuthSession } from './als.utils.js';
+
+import { ALS } from './als.utils.js';
 
 export const session = {
   getSession: () => ALS.getSession(),
-  setSession: (sessionData: any) => {
+  setSession: (sessionData: AuthSession) => {
     ALS.setSession(sessionData);
   },
 };
