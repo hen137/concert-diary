@@ -6,7 +6,7 @@
   "scripts": {
     "build": "pnpm tsc",
     "prod:server": "node --env-file=./env/.env.prod ./build/index.js",
-    "test": "node --env-file=./env/.env.test --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "vitest",
     "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
     "gen:db-types": "kysely-codegen --dialect postgres --env-file ./env/.env.dev --out-file ./src/types/database.d.ts",
     "gen:db-data-json": "tsx ./database/db_seed/data_json.ts",
@@ -58,25 +58,23 @@
     "@eslint/js": "^10.0.1",
     "@faker-js/faker": "^10.4.0",
     "@testcontainers/postgresql": "^11.14.0",
-    "@types/jest": "^30.0.0",
     "@types/node": "^25.6.0",
     "@types/pg": "^8.20.0",
     "@types/supertest": "^6.0.3",
     "eslint": "^10.2.1",
     "globals": "^17.5.0",
     "husky": "^9.1.7",
-    "jest": "^30.3.0",
     "jiti": "^2.6.1",
     "kysely-codegen": "^0.19.0",
     "lint-staged": "^16.4.0",
     "pino-pretty": "^13.1.3",
     "prettier": "^3.8.3",
     "supertest": "^7.2.2",
-    "ts-jest": "^29.4.9",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.59.1"
+    "typescript-eslint": "^8.59.1",
+    "vitest": "^4.1.5"
   },
   "type": "module"
 }

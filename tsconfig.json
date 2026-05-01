@@ -9,7 +9,7 @@
     "scripts"
   ],
   "compilerOptions": {
-    "types": ["node", "jest"],
+    "types": ["node"],
     "rootDir": ".",
     "outDir": "./build",
     // "paths": {
