@@ -1,19 +1,23 @@
-import type { FastifyInstance, FastifyPluginOptions } from "fastify";
-import type { DB } from "../../types/database.js";
+import type { FastifyInstance } from 'fastify';
+import type { DB } from '../types/database.js';
 
-import fp from "fastify-plugin";
-import { Pool } from "pg";
-import { Kysely, PostgresDialect } from "kysely";
+import fp from 'fastify-plugin';
+import { Pool } from 'pg';
+import { Kysely, PostgresDialect } from 'kysely';
 
-declare module "fastify" {
+declare module 'fastify' {
   interface FastifyInstance {
     db: Kysely<DB>;
   }
 }
 
-async function pgDatabase(
+interface IDatabasePluginOptions {
+  placeholder: unknown;
+}
+
+async function pgDatabasePlugin(
   server: FastifyInstance,
-  options: FastifyPluginOptions,
+  options: IDatabasePluginOptions
 ) {
   // TODO: add error handling for database connection issues, and maybe a retry mechanism
   try {
@@ -21,8 +25,8 @@ async function pgDatabase(
       dialect: new PostgresDialect({
         pool: new Pool({
           host:
-            process.env.NODE_ENV == "DEV_CONTAINER"
-              ? "database"
+            process.env.NODE_ENV == 'DEV_CONTAINER'
+              ? 'database'
               : server.env.POSTGRES_HOST,
           port: server.env.POSTGRES_PORT,
           user: server.env.POSTGRES_USER,
@@ -34,21 +38,25 @@ async function pgDatabase(
     });
 
     // niave connection test
-    await db.selectFrom("user_accounts").execute();
+    await db.selectFrom('user_accounts').execute();
 
-    server.decorate("db", db);
+    server.decorate('db', db);
 
-    server.addHook("onClose", async (server) => {
+    server.addHook('onClose', async (server) => {
       await server.db.destroy();
     });
 
-    server.log.debug("PostgreSQL Database plugin registered successfully");
+    server.log.debug('PostgreSQL Database plugin registered successfully');
   } catch (error) {
-    server.log.error(error, "Error registering database plugin:");
+    server.log.error(error, 'Error registering database plugin:');
   }
 }
 
-export default fp(pgDatabase, {
-  name: "pg-database",
-  dependencies: ["env"],
+export default fp(pgDatabasePlugin, {
+  name: 'pg-database',
+  dependencies: ['env'],
 });
+
+export const autoConfig: IDatabasePluginOptions = {
+  placeholder: undefined,
+};
