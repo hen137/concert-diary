@@ -1,9 +1,8 @@
-// import type { userSchema } from '../../../src/schemas/users.schema.js';
-
+import { describe, expect, test } from 'vitest';
 import z from 'zod';
 import { faker } from '@faker-js/faker';
 import {
-  // formatUsersPayload,
+  formatUsersPayload,
   validateCursorLimit,
 } from '../../../src/utils/pagination.utils.js';
 
@@ -16,24 +15,6 @@ const CURSOR_SCHEMA = z.object({
   id: z.uuid(),
   createdAt: z.string().transform((val) => new Date(val)),
 });
-
-// describe('', () => {
-//   describe('Positive Cases', () => {
-//     test('', () => {
-//       // Arrange
-//       // Act
-//       // Assert
-//     });
-//   });
-
-//   describe('Negative Cases', () => {
-//     test('', () => {
-//       // Arrange
-//       // Act
-//       // Assert
-//     });
-//   });
-// });
 
 describe('validateCursorLimit', () => {
   describe('Positive Cases', () => {
@@ -169,35 +150,35 @@ describe('validateCursorLimit', () => {
 describe('formatUsersPayload', () => {
   describe('Positive Cases', () => {
     test('return paginated users payload when supplied default cursor, limit, random account data', () => {
-      // const randAccData: z.infer<typeof userSchema>[] = [];
-      // for (let i = 0; i < DEFAULT_LIMIT; i++) {
-      //   const user_id = faker.string.uuid();
-      //   randAccData.push({
-      //     user_id,
-      //     username: faker.internet.username(),
-      //     first_name: faker.person.firstName(),
-      //     last_name: faker.person.lastName(),
-      //     followers_count: faker.number.int(),
-      //     following_count: faker.number.int(),
-      //     avatar_url: faker.internet.domainName(),
-      //     api_path: `v1/users/${user_id}`,
-      //     created_at: faker.date.anytime(),
-      //   });
-      // }
-      // const randPrevAccData: { user_id: string; created_at: Date }[] = [];
-      // for (let i = 0; i < DEFAULT_LIMIT; i++) {
-      //   randPrevAccData.push({
-      //     user_id: faker.string.uuid(),
-      //     created_at: faker.date.anytime(),
-      //   });
-      // }
-      // const payload = formatUsersPayload(
-      //   DEFAULT_CURSOR,
-      //   DEFAULT_LIMIT,
-      //   randAccData,
-      //   randPrevAccData
-      // );
-      // Assert
+      const randAccData = [];
+      for (let i = 0; i < DEFAULT_LIMIT; i++) {
+        const user_id = faker.string.uuid();
+        randAccData.push({
+          user_id,
+          username: faker.internet.username(),
+          first_name: faker.person.firstName(),
+          last_name: faker.person.lastName(),
+          avatar_url: faker.internet.domainName(),
+          created_at: faker.date.anytime(),
+        });
+      }
+      const randPrevAccData: { user_id: string; created_at: Date }[] = [];
+      for (let i = 0; i < DEFAULT_LIMIT; i++) {
+        randPrevAccData.push({
+          user_id: faker.string.uuid(),
+          created_at: faker.date.anytime(),
+        });
+      }
+
+      const payload = formatUsersPayload(
+        DEFAULT_CURSOR,
+        DEFAULT_LIMIT,
+        randAccData,
+        randPrevAccData
+      );
+
+      // expect(payload.page)
+      expect(payload.data).toHaveLength(DEFAULT_LIMIT);
     });
   });
 
