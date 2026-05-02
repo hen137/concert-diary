@@ -6,8 +6,8 @@
   "scripts": {
     "build": "pnpm tsc",
     "prod:server": "node --env-file=./env/.env.prod ./build/index.js",
-    "test": "vitest",
-    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "gen:db-types": "kysely-codegen --dialect postgres --env-file ./env/.env.dev --out-file ./src/types/database.d.ts",
     "gen:db-data-json": "tsx ./database/db_seed/data_json.ts",
     "dev:server": "tsx watch --env-file=./env/.env.dev ./src/index.ts",
@@ -61,6 +61,7 @@
     "@types/node": "^25.6.0",
     "@types/pg": "^8.20.0",
     "@types/supertest": "^6.0.3",
+    "@vitest/coverage-v8": "4.1.5",
     "eslint": "^10.2.1",
     "globals": "^17.5.0",
     "husky": "^9.1.7",

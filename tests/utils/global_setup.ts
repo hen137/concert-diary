@@ -1,3 +1,4 @@
+import { loadEnvFile } from 'node:process';
 import fs from 'fs/promises';
 import {
   PostgreSqlContainer,
@@ -16,7 +17,7 @@ export async function setup() {
   console.log('Global Setup');
 
   // CONSIDER: setting env variables here instead of passing .env.test
-  // CONSIDER: staging an auth token
+  loadEnvFile('./env/.env.test');
 
   console.log('Starting PostgreSQL container...');
 
@@ -35,7 +36,7 @@ export async function setup() {
   // We need to overwrite the environment variables with these real connection parameters
   // so that the application can connect to the correct database instance during tests.
   Object.assign(process.env, {
-    POSTGRES_HOST: container.getHost() == 'localhost' ? '0.0.0.0' : null, // causes a 57P01 error is host is 'localhost'
+    POSTGRES_HOST: container.getHost() == 'localhost' ? '0.0.0.0' : null, // causes a 57P01 error if host is 'localhost'
     POSTGRES_PORT: container.getPort().toString(),
   });
 
@@ -62,7 +63,7 @@ export async function setup() {
     'relationship_tables',
   ]) {
     const sqlText = await fs.readFile(
-      `./sql/tables/${tableGroup}.sql`,
+      `./database/sql/tables/${tableGroup}.sql`,
       'utf-8'
     );
     await client.query(sqlText);
@@ -85,7 +86,10 @@ export async function setup() {
   ]) {
     const jsonData: { type_description: string; type_id: number }[] =
       JSON.parse(
-        await fs.readFile(`./db_seed/data/types/${typePair.jsonFile}`, 'utf-8')
+        await fs.readFile(
+          `./database/db_seed/data/types/${typePair.jsonFile}`,
+          'utf-8'
+        )
       );
     for (const item of jsonData) {
       const values = [item.type_description, item.type_id];

@@ -1,9 +1,10 @@
-import type { FastifyInstance } from "fastify";
-import type { DB } from "../../types/database.js";
+import type { FastifyInstance } from 'fastify';
+import type { DB } from '../../src/types/database.js';
 
-import { buildServer } from "../../src/server.js";
-import { Kysely, PostgresDialect } from "kysely";
-import { Pool } from "pg";
+import { beforeAll, afterAll } from 'vitest';
+import { Pool } from 'pg';
+import { Kysely, PostgresDialect } from 'kysely';
+import { buildServer } from '../../src/server.js';
 
 export function manageServer() {
   const server: { instance: FastifyInstance | null } = {
@@ -11,7 +12,11 @@ export function manageServer() {
   };
 
   beforeAll(async () => {
-    server.instance = buildServer();
+    server.instance = buildServer({
+      fastifyOpts: {
+        logger: false,
+      },
+    });
     await server.instance.ready(); // Wait for all plugins to be loaded
   });
 
@@ -24,7 +29,7 @@ export function manageServer() {
     getServer: (): FastifyInstance => {
       if (!server.instance) {
         throw new Error(
-          "Fastify server instance is not available. Ensure getApp() is called within a test case (it/test).",
+          'Fastify server instance is not available. Ensure getApp() is called within a test case (it/test).'
         );
       }
 
@@ -61,7 +66,7 @@ export function manageDatabase() {
     getDb: (): Kysely<DB> => {
       if (!db.instance) {
         throw new Error(
-          "Kysely database instance is not available. Ensure getDb() is called within a test case (it/test).",
+          'Kysely database instance is not available. Ensure getDb() is called within a test case (it/test).'
         );
       }
 
