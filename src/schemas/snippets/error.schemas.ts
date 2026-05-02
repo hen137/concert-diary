@@ -5,9 +5,18 @@ import { z } from 'zod';
 export const badRequestSchema = z
   .strictObject({
     error: z.literal('Bad request'),
-    message: z.literal('ADD MESSAGE'), // TODO
+    message: z.literal('ADD MESSAGE'), // TODO: add generic message
   })
   .meta({ description: '400 bad request response' });
+
+// 401 Schemas
+
+export const unauthorizedErrorSchema = z
+  .object({
+    error: z.literal('Unauthorized'),
+    message: z.literal('Unauthorized Request'),
+  })
+  .meta({ description: '401 unauthorized response' });
 
 // 404 Schemas
 
@@ -27,6 +36,6 @@ export const dataNotFoundSchema = notFoundSchema.extend({
 export const internalServerErrorSchema = z
   .object({
     error: z.literal('Internal Server Error'),
-    message: z.literal('ADD MESSAGE'), // TODO
+    message: z.literal('ADD MESSAGE'), // TODO: add generic message
   })
   .meta({ description: '500 internal server error response' });

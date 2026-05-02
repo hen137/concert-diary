@@ -7,6 +7,30 @@ export const userCursorSchema = z.object({
   createdAt: z.string().transform((val) => new Date(val)),
 });
 
+export const venueCursorSchema = z.object({
+  // camelCase, used internally
+  venueId: z.uuid(),
+  // createdAt: z.string().transform((val) => new Date(val)),
+});
+
+export const eventCursorSchema = z.object({
+  // camelCase, used internally
+  eventId: z.uuid(),
+  // createdAt: z.string().transform((val) => new Date(val)),
+});
+
+export const seriesCursorSchema = z.object({
+  // camelCase, used internally
+  seriesId: z.uuid(),
+  // createdAt: z.string().transform((val) => new Date(val)),
+});
+
+export const artistCursorSchema = z.object({
+  // camelCase, used internally
+  artistId: z.uuid(),
+  // createdAt: z.string().transform((val) => new Date(val)),
+});
+
 export const malformedLimitSchema = badRequestSchema.extend({
   message: z.literal('Malformed limit'),
 });
