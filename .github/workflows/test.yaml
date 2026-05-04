@@ -25,4 +25,4 @@ jobs:
       - name: Run tests
         working-directory: .
         run: |
-          task test
+          task test --dir ./.github/tasks
