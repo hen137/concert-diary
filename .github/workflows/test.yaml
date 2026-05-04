@@ -21,7 +21,7 @@ jobs:
       - name: Install node dependencies
         working-directory: .
         run: |
-          task install-ci
+          task install-ci --dir ./.github/workflows/tasks
       - name: Run tests
         working-directory: .
         run: |
