@@ -1,5 +1,4 @@
-// import type { userSchema } from '../../../src/schemas/users.schema.js';
-
+import { describe, test, expect } from 'vitest';
 import z from 'zod';
 import { faker } from '@faker-js/faker';
 import {

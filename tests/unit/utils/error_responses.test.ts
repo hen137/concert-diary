@@ -1,3 +1,5 @@
+import { describe, test, expect } from 'vitest';
+
 describe('getPaginationErrorResponse', () => {
   describe('Positive Cases', () => {
     test('', () => {
