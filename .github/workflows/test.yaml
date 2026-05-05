@@ -20,8 +20,8 @@ jobs:
           version: v3.50.0
       - name: Install pnpm
         uses: pnpm/action-setup@8912a9102ac27614460f54aedde9e1e7f9aec20d # v6.0.5
-        with:
-          cache: true
+        # with:
+        #   cache: true
       - name: Install node dependencies
         working-directory: .
         run: |
