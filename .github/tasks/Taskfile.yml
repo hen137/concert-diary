@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install-ci:
+    desc: install/download package dependencies
+    cmds:
+      - pnpm i
+
+  test:
+    desc: run tests
+    cmds:
+      - pnpm run test
