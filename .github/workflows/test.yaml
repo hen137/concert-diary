@@ -18,6 +18,10 @@ jobs:
           uri: "https://github.com/go-task/task/releases/download/v3.50.0/task_linux_amd64.tar.gz"
           name: task
           version: v3.50.0
+      - name: Install pnpm
+        uses: pnpm/action-setup@8912a9102ac27614460f54aedde9e1e7f9aec20d # v6.0.5
+        with:
+          cache: true
       - name: Install node dependencies
         working-directory: .
         run: |
