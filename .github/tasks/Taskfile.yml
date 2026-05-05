@@ -6,7 +6,7 @@ tasks:
   install-ci:
     desc: install/download package dependencies
     cmds:
-      - pnpm ci
+      - pnpm i
   
   test:
     desc: run tests
