@@ -1,10 +1,22 @@
 import type { FastifyInstance } from 'fastify';
-import type { DB } from '../../src/types/database.js';
+import type { Auth, BetterAuthOptions } from 'better-auth';
+import type { TestHelpers } from 'better-auth/plugins';
+import type { DB } from '#types/database.js';
 
 import { beforeAll, afterAll } from 'vitest';
 import { Pool } from 'pg';
 import { Kysely, PostgresDialect } from 'kysely';
-import { buildServer } from '../../src/server.js';
+import { buildServer } from '#src/server.js';
+
+declare global {
+  var BATest: TestHelpers;
+}
+
+declare module 'fastify' {
+  interface FastifyInstance {
+    betterAuth: Auth<BetterAuthOptions>;
+  }
+}
 
 export function manageServer() {
   const server: { instance: FastifyInstance | null } = {
@@ -18,6 +30,12 @@ export function manageServer() {
       },
     });
     await server.instance.ready(); // Wait for all plugins to be loaded
+
+    // console.log(server.instance.BAConfig)
+
+    if (!globalThis.BATest) {
+      globalThis.BATest = (await server.instance.betterAuth.$context).test;
+    }
   });
 
   afterAll(async () => {

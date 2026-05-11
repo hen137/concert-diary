@@ -1,6 +1,6 @@
 // CONSIDER: https://github.com/flaviodelgrosso/fastify-better-auth
 
-import type { IncomingHttpHeaders } from 'node:http';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 import type { FastifyAuthPluginOptions } from '@fastify/auth';
 import type { Auth, BetterAuthOptions } from 'better-auth';
 import type { Server } from '../index.js';
@@ -18,8 +18,14 @@ import { UnauthorizedError } from '../utils/errors.util.js';
 declare module 'fastify' {
   interface FastifyInstance {
     betterAuth: Auth<BetterAuthOptions>;
-    authenticateHeaders: (headers: IncomingHttpHeaders) => Promise<void>;
-    authenticateAPIKey: (apiKey: string) => Promise<void>;
+    authenticateHeaders: (
+      request: FastifyRequest,
+      response: FastifyReply
+    ) => Promise<void>;
+    authenticateAPIKey: (
+      request: FastifyRequest<{ Querystring: { api_key: string } }>,
+      response: FastifyReply
+    ) => Promise<void>;
   }
 }
 
@@ -91,7 +97,10 @@ const testConfig = {
   betterAuthOpts: {
     basePath: '/v1/auth',
     trustedOrigins: ['http://localhost:3000'],
-    plugins: [testUtils()],
+    plugins: [
+      testUtils(),
+      apiKey([{ configId: 'public', defaultPrefix: 'pk_' }]),
+    ],
   },
 };
 
@@ -106,10 +115,34 @@ async function authPlugin(server: Server, options: IAuthPluginOptions) {
   server.decorate('betterAuth', betterAuth(options.betterAuthOpts));
 
   server.decorate(
+    'authenticateAPIKey',
+    async function (
+      request: FastifyRequest<{ Querystring: { api_key: string } }>,
+      response: FastifyReply
+    ) {
+      if (!request.query.api_key)
+        throw new UnauthorizedError('No API key provided');
+
+      const result = await server.betterAuth.api.verifyApiKey({
+        body: {
+          configId: 'public',
+          key: request.headers['x-api-key'] || request.query.api_key,
+          // permissions: {
+          //   // TODO: implement expected permission checks
+          // },
+        },
+      });
+
+      // TODO: create custom error handling for unauthorized requests
+      if (!result.valid) throw new UnauthorizedError('Invalid API Key');
+    }
+  );
+
+  server.decorate(
     'authenticateHeaders',
-    async (headers: IncomingHttpHeaders) => {
+    async (request: FastifyRequest, response: FastifyReply) => {
       const sesh = await server.betterAuth.api.getSession({
-        headers: fromNodeHeaders(headers),
+        headers: fromNodeHeaders(request.headers),
       });
 
       if (!sesh) throw new UnauthorizedError('Unauthorized Request');
@@ -122,23 +155,6 @@ async function authPlugin(server: Server, options: IAuthPluginOptions) {
       );
     }
   );
-
-  server.decorate('authenticateAPIKey', async (apiKey: string) => {
-    if (!apiKey) throw new UnauthorizedError('No API key provided');
-
-    const result = await server.betterAuth.api.verifyApiKey({
-      body: {
-        configId: 'public',
-        key: apiKey,
-        // permissions: {
-        //   // TODO: implement expected permission checks
-        // },
-      },
-    });
-
-    // TODO: create custom error handling for unauthorized requests
-    if (!result.valid) throw new UnauthorizedError('Invalid API Key');
-  });
 
   server.log.debug('Auth plugin registered successfully');
 }
