@@ -2,14 +2,15 @@ import { describe, test, expect } from 'vitest';
 import z from 'zod';
 import { faker } from '@faker-js/faker';
 import {
+  DEFAULT_PAGE_LIMIT,
+  DEFAULT_CURSOR,
+  MAX_PAGE_LIMIT,
+  MIN_PAGE_LIMIT,
+} from '#tests/utils/values.utils.ts';
+import {
   formatUsersPayload,
   validateCursorLimit,
-} from '../../../src/utils/pagination.utils.js';
-
-const DEFAULT_CURSOR = '';
-const DEFAULT_LIMIT = 10;
-const MIN_LIMIT = 1;
-const MAX_LIMIT = 100;
+} from '#utils/pagination.utils.js';
 
 const CURSOR_SCHEMA = z.object({
   id: z.uuid(),
@@ -21,12 +22,12 @@ describe('validateCursorLimit', () => {
     test('return default cursor, limit when supplied default cursor, limit', () => {
       const { cursor, limit } = validateCursorLimit(
         DEFAULT_CURSOR,
-        DEFAULT_LIMIT,
+        DEFAULT_PAGE_LIMIT,
         CURSOR_SCHEMA
       );
 
       expect(cursor).toEqual(DEFAULT_CURSOR);
-      expect(limit).toEqual(DEFAULT_LIMIT);
+      expect(limit).toEqual(DEFAULT_PAGE_LIMIT);
     });
 
     test('return default cursor, custom limit when supplied empty cursor, custom limit [1, 100]', () => {
@@ -52,13 +53,13 @@ describe('validateCursorLimit', () => {
 
       const { cursor, limit } = validateCursorLimit(
         customCursor,
-        DEFAULT_LIMIT,
+        DEFAULT_PAGE_LIMIT,
         CURSOR_SCHEMA
       );
 
       expect(cursor).toHaveProperty('id');
       expect(cursor).toHaveProperty('createdAt');
-      expect(limit).toEqual(DEFAULT_LIMIT);
+      expect(limit).toEqual(DEFAULT_PAGE_LIMIT);
     });
 
     test('return decoded cursor, default limit when supplied custom cursor with eroneous fields, default limit', () => {
@@ -77,14 +78,14 @@ describe('validateCursorLimit', () => {
 
       const { cursor, limit } = validateCursorLimit(
         customCursor,
-        DEFAULT_LIMIT,
+        DEFAULT_PAGE_LIMIT,
         CURSOR_SCHEMA
       );
 
       //   expect(cursor).toHaveProperty('id');
       //   expect(cursor).toHaveProperty('createdAt');
       expect(cursor).toStrictEqual(minCursor);
-      expect(limit).toEqual(DEFAULT_LIMIT);
+      expect(limit).toEqual(DEFAULT_PAGE_LIMIT);
     });
 
     test('return default cursor, max limit when supplied empty cursor, limit > 100', () => {
@@ -97,7 +98,7 @@ describe('validateCursorLimit', () => {
       );
 
       expect(cursor).toEqual(DEFAULT_CURSOR);
-      expect(limit).toEqual(MAX_LIMIT);
+      expect(limit).toEqual(MAX_PAGE_LIMIT);
     });
 
     test('return default cursor, min limit when supplied empty cursor, limit < 1', () => {
@@ -110,7 +111,7 @@ describe('validateCursorLimit', () => {
       );
 
       expect(cursor).toEqual(DEFAULT_CURSOR);
-      expect(limit).toEqual(MIN_LIMIT);
+      expect(limit).toEqual(MIN_PAGE_LIMIT);
     });
   });
 
@@ -120,7 +121,7 @@ describe('validateCursorLimit', () => {
       const customCursor = faker.string.sample();
 
       expect(() => {
-        validateCursorLimit(customCursor, DEFAULT_LIMIT, CURSOR_SCHEMA);
+        validateCursorLimit(customCursor, DEFAULT_PAGE_LIMIT, CURSOR_SCHEMA);
       }).toThrow(DOMException);
     });
 
@@ -128,7 +129,7 @@ describe('validateCursorLimit', () => {
       const customCursor = btoa(faker.string.sample());
 
       expect(() => {
-        validateCursorLimit(customCursor, DEFAULT_LIMIT, CURSOR_SCHEMA);
+        validateCursorLimit(customCursor, DEFAULT_PAGE_LIMIT, CURSOR_SCHEMA);
       }).toThrow(SyntaxError);
     });
 
@@ -141,7 +142,7 @@ describe('validateCursorLimit', () => {
       );
 
       expect(() => {
-        validateCursorLimit(customCursor, DEFAULT_LIMIT, CURSOR_SCHEMA);
+        validateCursorLimit(customCursor, DEFAULT_PAGE_LIMIT, CURSOR_SCHEMA);
       }).toThrow(z.ZodError);
     });
   });
@@ -151,7 +152,7 @@ describe('formatUsersPayload', () => {
   describe('Positive Cases', () => {
     test('return paginated users payload when supplied default cursor, limit, random account data', () => {
       const randAccData = [];
-      for (let i = 0; i < DEFAULT_LIMIT; i++) {
+      for (let i = 0; i < DEFAULT_PAGE_LIMIT; i++) {
         const user_id = faker.string.uuid();
         randAccData.push({
           user_id,
@@ -163,7 +164,7 @@ describe('formatUsersPayload', () => {
         });
       }
       const randPrevAccData: { user_id: string; created_at: Date }[] = [];
-      for (let i = 0; i < DEFAULT_LIMIT; i++) {
+      for (let i = 0; i < DEFAULT_PAGE_LIMIT; i++) {
         randPrevAccData.push({
           user_id: faker.string.uuid(),
           created_at: faker.date.anytime(),
@@ -172,13 +173,13 @@ describe('formatUsersPayload', () => {
 
       const payload = formatUsersPayload(
         DEFAULT_CURSOR,
-        DEFAULT_LIMIT,
+        DEFAULT_PAGE_LIMIT,
         randAccData,
         randPrevAccData
       );
 
       // expect(payload.page)
-      expect(payload.data).toHaveLength(DEFAULT_LIMIT);
+      expect(payload.data).toHaveLength(DEFAULT_PAGE_LIMIT);
     });
   });
 
