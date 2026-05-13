@@ -23,7 +23,7 @@ type NotFoundResponse = z.infer<(typeof getUsersListSchema.response)[404]>;
 
 export default async function usersRoutes(server: Server) {
   server.setErrorHandler((error, request, response): ErrorResponse => {
-    if (!(process.env.NODE_ENV === 'test')) logger.error(error);
+    logger.error(error);
 
     const { code, errorResponse } = getPaginationErrorResponse(error);
 
@@ -91,7 +91,7 @@ export default async function usersRoutes(server: Server) {
           .execute();
 
         // no records following userId
-        // if (!userData.length) return response.callNotFound();
+        if (!userData.length) return response.callNotFound();
 
         prevUserData = await server.db
           .selectFrom('user_accounts')

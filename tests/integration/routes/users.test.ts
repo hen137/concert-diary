@@ -17,151 +17,153 @@ describe('GET /v1/users', async () => {
   const route = '/v1/users';
 
   describe('Positive Cases', async () => {
-    test('return 200 with default limit, cursor', async () => {
-      const server = getServer();
+    describe('200 Success Tests', async () => {
+      test('return 200 with default limit, cursor', async () => {
+        const server = getServer();
 
-      const response = await supertest(server.server)
-        .get(route)
-        .set('Cookie', globalThis.authHeaders.get('cookie')!)
-        .expect(200)
-        .expect('Content-Type', /json/);
+        const response = await supertest(server.server)
+          .get(route)
+          .set('Cookie', globalThis.authHeaders.get('cookie')!)
+          .expect(200)
+          .expect('Content-Type', /json/);
 
-      expect(response.body).toHaveProperty('page');
-      expect(response.body.page.limit).toBe(DEFAULT_PAGE_LIMIT);
-      expect(response.body.page.cursor).toBe(DEFAULT_CURSOR);
-      expect(response.body.page.next_cursor).toSatisfy(isBase64);
-      expect(response.body.page.prev_cursor).toBe(DEFAULT_CURSOR);
+        expect(response.body).toHaveProperty('page');
+        expect(response.body.page.limit).toBe(DEFAULT_PAGE_LIMIT);
+        expect(response.body.page.cursor).toBe(DEFAULT_CURSOR);
+        expect(response.body.page.next_cursor).toSatisfy(isBase64);
+        expect(response.body.page.prev_cursor).toBe(DEFAULT_CURSOR);
 
-      expect(response.body).toHaveProperty('data');
-      expect(response.body.data).toHaveLength(DEFAULT_PAGE_LIMIT);
-      // expect data
-    });
-
-    test('return 200 with default limit, valid cursor', async () => {
-      const server = getServer();
-
-      const cursor = btoa(JSON.stringify({ userId: faker.string.uuid() })); // TODO: query db for valid uuid
-
-      const response = await supertest(server.server)
-        .get(route)
-        .set('Cookie', globalThis.authHeaders.get('cookie')!)
-        .query({ cursor })
-        .expect(200)
-        .expect('Content-Type', /json/);
-
-      expect(response.body).toHaveProperty('page');
-      expect(response.body.page.limit).toBe(DEFAULT_PAGE_LIMIT);
-      expect(response.body.page.cursor).toBe(cursor);
-      expect(response.body.page.next_cursor).toSatisfy(isBase64);
-      expect(response.body.page.prev_cursor).toSatisfy(isBase64);
-
-      expect(response.body).toHaveProperty('data');
-      expect(response.body.data).toHaveLength(DEFAULT_PAGE_LIMIT);
-      // expect data
-    });
-
-    test('return 200 with custom limit between [1, 100], default cursor', async () => {
-      const server = getServer();
-
-      const limit = faker.number.int({
-        min: MIN_PAGE_LIMIT,
-        max: MAX_PAGE_LIMIT,
+        expect(response.body).toHaveProperty('data');
+        expect(response.body.data).toHaveLength(DEFAULT_PAGE_LIMIT);
+        // expect data
       });
 
-      const response = await supertest(server.server)
-        .get(route)
-        .set('Cookie', globalThis.authHeaders.get('cookie')!)
-        .query({ limit })
-        .expect(200)
-        .expect('Content-Type', /json/);
+      test('return 200 with default limit, valid cursor', async () => {
+        const server = getServer();
 
-      expect(response.body).toHaveProperty('page');
-      expect(response.body.page.limit).toBe(limit);
-      expect(response.body.page.cursor).toBe(DEFAULT_CURSOR);
-      expect(response.body.page.next_cursor).toSatisfy(isBase64);
-      expect(response.body.page.prev_cursor).toBe(DEFAULT_CURSOR);
+        const cursor = btoa(JSON.stringify({ userId: faker.string.uuid() })); // TODO: query db for valid uuid
 
-      expect(response.body).toHaveProperty('data');
-      expect(response.body.data).toHaveLength(limit);
-      // expect data
-    });
+        const response = await supertest(server.server)
+          .get(route)
+          .set('Cookie', globalThis.authHeaders.get('cookie')!)
+          .query({ cursor })
+          .expect(200)
+          .expect('Content-Type', /json/);
 
-    test('return 200 with custom limit between [1, 100], valid cursor', async () => {
-      const server = getServer();
+        expect(response.body).toHaveProperty('page');
+        expect(response.body.page.limit).toBe(DEFAULT_PAGE_LIMIT);
+        expect(response.body.page.cursor).toBe(cursor);
+        expect(response.body.page.next_cursor).toSatisfy(isBase64);
+        expect(response.body.page.prev_cursor).toSatisfy(isBase64);
 
-      const limit = faker.number.int({
-        min: MIN_PAGE_LIMIT,
-        max: MAX_PAGE_LIMIT,
-      });
-      const cursor = btoa(JSON.stringify({ userId: faker.string.uuid() })); // TODO: query db for valid uuid
-
-      const response = await supertest(server.server)
-        .get(route)
-        .set('Cookie', globalThis.authHeaders.get('cookie')!)
-        .query({ limit, cursor })
-        .expect(200)
-        .expect('Content-Type', /json/);
-
-      expect(response.body).toHaveProperty('page');
-      expect(response.body.page.limit).toBe(limit);
-      expect(response.body.page.cursor).toBe(cursor);
-      expect(response.body.page.next_cursor).toSatisfy(isBase64);
-      expect(response.body.page.prev_cursor).toBe(isBase64);
-
-      expect(response.body).toHaveProperty('data');
-      expect(response.body.data).toHaveLength(limit);
-      // expect data
-    });
-
-    test('return 200 with custom limit outside [1, 100], default cursor', async () => {
-      const server = getServer();
-
-      const limit = faker.number.int({
-        min: MAX_PAGE_LIMIT,
+        expect(response.body).toHaveProperty('data');
+        expect(response.body.data).toHaveLength(DEFAULT_PAGE_LIMIT);
+        // expect data
       });
 
-      const response = await supertest(server.server)
-        .get(route)
-        .set('Cookie', globalThis.authHeaders.get('cookie')!)
-        .query({ limit })
-        .expect(200)
-        .expect('Content-Type', /json/);
+      test('return 200 with custom limit between [1, 100], default cursor', async () => {
+        const server = getServer();
 
-      expect(response.body).toHaveProperty('page');
-      expect(response.body.page.limit).toBe(MAX_PAGE_LIMIT);
-      expect(response.body.page.cursor).toBe(DEFAULT_CURSOR);
-      expect(response.body.page.next_cursor).toSatisfy(isBase64);
-      expect(response.body.page.prev_cursor).toBe(DEFAULT_CURSOR);
+        const limit = faker.number.int({
+          min: MIN_PAGE_LIMIT,
+          max: MAX_PAGE_LIMIT,
+        });
 
-      expect(response.body).toHaveProperty('data');
-      expect(response.body.data).toHaveLength(MAX_PAGE_LIMIT);
-      // expect data
-    });
+        const response = await supertest(server.server)
+          .get(route)
+          .set('Cookie', globalThis.authHeaders.get('cookie')!)
+          .query({ limit })
+          .expect(200)
+          .expect('Content-Type', /json/);
 
-    test('return 200 with custom limit outside [1, 100], valid cursor', async () => {
-      const server = getServer();
+        expect(response.body).toHaveProperty('page');
+        expect(response.body.page.limit).toBe(limit);
+        expect(response.body.page.cursor).toBe(DEFAULT_CURSOR);
+        expect(response.body.page.next_cursor).toSatisfy(isBase64);
+        expect(response.body.page.prev_cursor).toBe(DEFAULT_CURSOR);
 
-      const limit = faker.number.int({
-        min: MAX_PAGE_LIMIT,
+        expect(response.body).toHaveProperty('data');
+        expect(response.body.data).toHaveLength(limit);
+        // expect data
       });
-      const cursor = btoa(JSON.stringify({ userId: faker.string.uuid() })); // TODO: query db for valid uuid
 
-      const response = await supertest(server.server)
-        .get(route)
-        .set('Cookie', globalThis.authHeaders.get('cookie')!)
-        .query({ limit, cursor })
-        .expect(200)
-        .expect('Content-Type', /json/);
+      test('return 200 with custom limit between [1, 100], valid cursor', async () => {
+        const server = getServer();
 
-      expect(response.body).toHaveProperty('page');
-      expect(response.body.page.limit).toBe(MAX_PAGE_LIMIT);
-      expect(response.body.page.cursor).toBe(cursor);
-      expect(response.body.page.next_cursor).toSatisfy(isBase64);
-      expect(response.body.page.prev_cursor).toBe(isBase64);
+        const limit = faker.number.int({
+          min: MIN_PAGE_LIMIT,
+          max: MAX_PAGE_LIMIT,
+        });
+        const cursor = btoa(JSON.stringify({ userId: faker.string.uuid() })); // TODO: query db for valid uuid
 
-      expect(response.body).toHaveProperty('data');
-      expect(response.body.data).toHaveLength(MAX_PAGE_LIMIT);
-      // expect data
+        const response = await supertest(server.server)
+          .get(route)
+          .set('Cookie', globalThis.authHeaders.get('cookie')!)
+          .query({ limit, cursor })
+          .expect(200)
+          .expect('Content-Type', /json/);
+
+        expect(response.body).toHaveProperty('page');
+        expect(response.body.page.limit).toBe(limit);
+        expect(response.body.page.cursor).toBe(cursor);
+        expect(response.body.page.next_cursor).toSatisfy(isBase64);
+        expect(response.body.page.prev_cursor).toBe(isBase64);
+
+        expect(response.body).toHaveProperty('data');
+        expect(response.body.data).toHaveLength(limit);
+        // expect data
+      });
+
+      test('return 200 with custom limit outside [1, 100], default cursor', async () => {
+        const server = getServer();
+
+        const limit = faker.number.int({
+          min: MAX_PAGE_LIMIT,
+        });
+
+        const response = await supertest(server.server)
+          .get(route)
+          .set('Cookie', globalThis.authHeaders.get('cookie')!)
+          .query({ limit })
+          .expect(200)
+          .expect('Content-Type', /json/);
+
+        expect(response.body).toHaveProperty('page');
+        expect(response.body.page.limit).toBe(MAX_PAGE_LIMIT);
+        expect(response.body.page.cursor).toBe(DEFAULT_CURSOR);
+        expect(response.body.page.next_cursor).toSatisfy(isBase64);
+        expect(response.body.page.prev_cursor).toBe(DEFAULT_CURSOR);
+
+        expect(response.body).toHaveProperty('data');
+        expect(response.body.data).toHaveLength(MAX_PAGE_LIMIT);
+        // expect data
+      });
+
+      test('return 200 with custom limit outside [1, 100], valid cursor', async () => {
+        const server = getServer();
+
+        const limit = faker.number.int({
+          min: MAX_PAGE_LIMIT,
+        });
+        const cursor = btoa(JSON.stringify({ userId: faker.string.uuid() })); // TODO: query db for valid uuid
+
+        const response = await supertest(server.server)
+          .get(route)
+          .set('Cookie', globalThis.authHeaders.get('cookie')!)
+          .query({ limit, cursor })
+          .expect(200)
+          .expect('Content-Type', /json/);
+
+        expect(response.body).toHaveProperty('page');
+        expect(response.body.page.limit).toBe(MAX_PAGE_LIMIT);
+        expect(response.body.page.cursor).toBe(cursor);
+        expect(response.body.page.next_cursor).toSatisfy(isBase64);
+        expect(response.body.page.prev_cursor).toBe(isBase64);
+
+        expect(response.body).toHaveProperty('data');
+        expect(response.body.data).toHaveLength(MAX_PAGE_LIMIT);
+        // expect data
+      });
     });
   });
 
@@ -259,8 +261,20 @@ describe('GET /v1/users', async () => {
       });
     });
 
-    describe('404 Not Found Tests', () => {
-      test('return 404 when cursor encodes unknown userId', () => {});
+    describe('404 Not Found Tests', async () => {
+      test('return 404 when cursor encodes unknown userId', async () => {
+        const server = getServer();
+
+        const cursor = btoa(JSON.stringify({ userId: faker.string.uuid() }));
+
+        const response = await supertest(server.server)
+          .get(route)
+          .set('Cookie', globalThis.authHeaders.get('cookie')!)
+          .query({ cursor })
+          .expect(404);
+
+        expect(response.body.message).toBe('Data does not exist');
+      });
     });
   });
 });

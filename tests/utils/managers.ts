@@ -31,17 +31,17 @@ export function manageServer() {
   beforeAll(async () => {
     server.instance = buildServer({
       fastifyOpts: {
-        // logger: false,
-        logger: {
-          level: process.env.LOG_LEVEL!,
-          transport: {
-            target: 'pino-pretty',
-            options: {
-              colorize: true,
-              translateTime: 'HH:MM:ss Z',
-            },
-          },
-        },
+        logger: false,
+        // logger: {
+        //   level: process.env.LOG_LEVEL!,
+        //   transport: {
+        //     target: 'pino-pretty',
+        //     options: {
+        //       colorize: true,
+        //       translateTime: 'HH:MM:ss Z',
+        //     },
+        //   },
+        // },
       },
     });
     await server.instance.ready(); // Wait for all plugins to be loaded
