@@ -22,7 +22,8 @@ import type {
   // SubgenresTypes,
 } from '../../src/types/database.js';
 
-import fs from 'fs';
+import path from 'path';
+import fs from 'fs/promises';
 import { faker } from '@faker-js/faker';
 import { getTypeValues, jsonFromArray } from './utils/utils.js';
 
@@ -40,66 +41,83 @@ import {
 const destDir = './database/db_seed/data/';
 const suffix = '.data.json';
 
-// FIX: Kysely type imcompatabilities
 // TODO: generate case specific entities and relationships
 
 // types
-export function generateTypesJSON() {
+export async function generateTypesJSON() {
   console.log('Generating Types as JSON...');
 
   const typesDir = destDir + 'types/';
   const typeInfix = '_types';
 
-  if (!fs.existsSync(typesDir)) {
-    fs.mkdirSync(typesDir, { recursive: true });
-  }
+  await fs
+    .stat(typesDir)
+    .then(async (res) => {
+      for (const file of await fs.readdir(typesDir)) {
+        fs.unlink(path.join(typesDir, file));
+      }
+    })
+    .catch(async (error) => await fs.mkdir(typesDir, { recursive: true }));
 
   const artistTypeValues = getTypeValues<ArtistTypes>(artistTypes);
-  jsonFromArray(artistTypeValues, typesDir + 'artists' + typeInfix + suffix);
+  await jsonFromArray(
+    artistTypeValues,
+    typesDir + 'artist' + typeInfix + suffix
+  );
 
   const eventTypeValues = getTypeValues<EventTypes>(eventTypes);
-  jsonFromArray(eventTypeValues, typesDir + 'events' + typeInfix + suffix);
+  await jsonFromArray(eventTypeValues, typesDir + 'event' + typeInfix + suffix);
 
   const genreTypeValues = getTypeValues<GenreTypes>(genreTypes);
-  jsonFromArray(genreTypeValues, typesDir + 'genres' + typeInfix + suffix);
+  await jsonFromArray(genreTypeValues, typesDir + 'genre' + typeInfix + suffix);
 
   const hashAlgorithmTypeValues =
     getTypeValues<HashAlgorithmTypes>(hashAlgorithmTypes);
-  jsonFromArray(
+  await jsonFromArray(
     hashAlgorithmTypeValues,
-    typesDir + 'hash_algorithms' + typeInfix + suffix
+    typesDir + 'hash_algorithm' + typeInfix + suffix
   );
 
   const relationshipTypeValues =
     getTypeValues<RelationshipTypes>(relationshipTypes);
-  jsonFromArray(
+  await jsonFromArray(
     relationshipTypeValues,
-    typesDir + 'relationships' + typeInfix + suffix
+    typesDir + 'relationship' + typeInfix + suffix
   );
 
   const roleTypeValues = getTypeValues<RoleTypes>(roleTypes);
-  jsonFromArray(roleTypeValues, typesDir + 'roles' + typeInfix + suffix);
+  await jsonFromArray(roleTypeValues, typesDir + 'role' + typeInfix + suffix);
 
   const seriesTypeValues = getTypeValues<SeriesTypes>(seriesTypes);
-  jsonFromArray(seriesTypeValues, typesDir + 'series' + typeInfix + suffix);
+  await jsonFromArray(
+    seriesTypeValues,
+    typesDir + 'series' + typeInfix + suffix
+  );
 
   // const subgenresTypeValues = getTypeValues<SubgenresTypes>(subgenresTypes);
-  // jsonFromArray(subgenresTypeValues, typesDir + "subgenres" + typeInfix + suffix);
+  // await jsonFromArray(subgenresTypeValues, typesDir + "subgenres" + typeInfix + suffix);
 
   const venueTypeValues = getTypeValues<VenueTypes>(venueTypes);
-  jsonFromArray(venueTypeValues, typesDir + 'venues' + typeInfix + suffix);
+  await jsonFromArray(venueTypeValues, typesDir + 'venue' + typeInfix + suffix);
 }
 
 // primary entities
-export function generatePrimaryEntitiesJSON() {
+export async function generatePrimaryEntitiesJSON() {
   console.log('Generating Primary Entities as JSON...');
 
   const primaryEntitiesDir = destDir + 'primary_entities/';
   const primaryEntitiesInfix = '_primary_entities';
 
-  if (!fs.existsSync(primaryEntitiesDir)) {
-    fs.mkdirSync(primaryEntitiesDir, { recursive: true });
-  }
+  await fs
+    .stat(primaryEntitiesDir)
+    .then(async (res) => {
+      for (const file of await fs.readdir(primaryEntitiesDir)) {
+        fs.unlink(path.join(primaryEntitiesDir, file));
+      }
+    })
+    .catch(
+      async (error) => await fs.mkdir(primaryEntitiesDir, { recursive: true })
+    );
 
   const artistsValues: Artists[] = [];
   for (let i = 0; i < 100; i++) {
@@ -115,7 +133,7 @@ export function generatePrimaryEntitiesJSON() {
     });
   }
   // console.log(artistsValues);
-  jsonFromArray(
+  await jsonFromArray(
     artistsValues,
     primaryEntitiesDir + 'artists' + primaryEntitiesInfix + suffix
   );
@@ -138,7 +156,7 @@ export function generatePrimaryEntitiesJSON() {
     });
   }
   // console.log(seriesValues);
-  jsonFromArray(
+  await jsonFromArray(
     seriesValues,
     primaryEntitiesDir + 'series' + primaryEntitiesInfix + suffix
   );
@@ -162,7 +180,7 @@ export function generatePrimaryEntitiesJSON() {
     });
   }
   // console.log(venuesValues);
-  jsonFromArray(
+  await jsonFromArray(
     venuesValues,
     primaryEntitiesDir + 'venues' + primaryEntitiesInfix + suffix
   );
@@ -177,7 +195,7 @@ export function generatePrimaryEntitiesJSON() {
     });
   }
   // console.log(setlistsValues);
-  jsonFromArray(
+  await jsonFromArray(
     setlistsValues,
     primaryEntitiesDir + 'setlists' + primaryEntitiesInfix + suffix
   );
@@ -210,7 +228,7 @@ export function generatePrimaryEntitiesJSON() {
     });
   }
   // console.log(eventsValues);
-  jsonFromArray(
+  await jsonFromArray(
     eventsValues,
     primaryEntitiesDir + 'events' + primaryEntitiesInfix + suffix
   );
@@ -263,7 +281,7 @@ export function generatePrimaryEntitiesJSON() {
   };
   usersAccountsValues.push(adminUser);
   // console.log(usersAccountsValues);
-  jsonFromArray(
+  await jsonFromArray(
     usersAccountsValues,
     primaryEntitiesDir + 'user_accounts' + primaryEntitiesInfix + suffix
   );
@@ -288,7 +306,7 @@ export function generatePrimaryEntitiesJSON() {
     });
   }
   // console.log(userProfilesValues);
-  jsonFromArray(
+  await jsonFromArray(
     userProfilesValues,
     primaryEntitiesDir + 'user_profiles' + primaryEntitiesInfix + suffix
   );
@@ -317,7 +335,7 @@ export function generatePrimaryEntitiesJSON() {
     });
   }
   // console.log(venueReviewsValues);
-  jsonFromArray(
+  await jsonFromArray(
     venueReviewsValues,
     primaryEntitiesDir + 'venue_reviews' + primaryEntitiesInfix + suffix
   );
@@ -344,7 +362,7 @@ export function generatePrimaryEntitiesJSON() {
     });
   }
   // console.log(eventReviewsValues);
-  jsonFromArray(
+  await jsonFromArray(
     eventReviewsValues,
     primaryEntitiesDir + 'event_reviews' + primaryEntitiesInfix + suffix
   );
@@ -360,7 +378,7 @@ export function generatePrimaryEntitiesJSON() {
     });
   }
   // console.log(venueReviewLikesValues);
-  jsonFromArray(
+  await jsonFromArray(
     venueReviewLikesValues,
     primaryEntitiesDir + 'venue_review_likes' + primaryEntitiesInfix + suffix
   );
@@ -376,7 +394,7 @@ export function generatePrimaryEntitiesJSON() {
     });
   }
   // console.log(eventReviewLikesValues);
-  jsonFromArray(
+  await jsonFromArray(
     eventReviewLikesValues,
     primaryEntitiesDir + 'event_review_likes' + primaryEntitiesInfix + suffix
   );
@@ -396,15 +414,24 @@ export function generatePrimaryEntitiesJSON() {
 }
 
 // relationships
-export function generateRelationshipsJSON(userProfilesValues: UserProfiles[]) {
+export async function generateRelationshipsJSON(
+  userProfilesValues: UserProfiles[]
+) {
   console.log('Generating Relationships as JSON...');
 
   const relationshipsDir = destDir + 'relationships/';
   const relationshipsInfix = '_relationship';
 
-  if (!fs.existsSync(relationshipsDir)) {
-    fs.mkdirSync(relationshipsDir, { recursive: true });
-  }
+  await fs
+    .stat(relationshipsDir)
+    .then(async (res) => {
+      for (const file of await fs.readdir(relationshipsDir)) {
+        fs.unlink(path.join(relationshipsDir, file));
+      }
+    })
+    .catch(
+      async (error) => await fs.mkdir(relationshipsDir, { recursive: true })
+    );
 
   // TODO: generate relationship json
 
@@ -437,12 +464,12 @@ export function generateRelationshipsJSON(userProfilesValues: UserProfiles[]) {
     });
   }
   // console.log(userRelationshipValues);
-  jsonFromArray(
+  await jsonFromArray(
     userRelationshipValues,
     relationshipsDir + 'user_relationships' + relationshipsInfix + suffix
   );
 }
 
-generateTypesJSON();
-const { userProfilesValues } = generatePrimaryEntitiesJSON();
-generateRelationshipsJSON(userProfilesValues);
+await generateTypesJSON();
+const { userProfilesValues } = await generatePrimaryEntitiesJSON();
+await generateRelationshipsJSON(userProfilesValues);

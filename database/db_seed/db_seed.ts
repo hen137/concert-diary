@@ -1,16 +1,16 @@
 import type { DB } from '../../src/types/database.js';
 import { db } from './database.js';
 
-import artistTypes from './data/types/artists_types.data.json' with { type: 'json' };
-import venueTypes from './data/types/venues_types.data.json' with { type: 'json' };
+import artistTypes from './data/types/artist_types.data.json' with { type: 'json' };
+import venueTypes from './data/types/venue_types.data.json' with { type: 'json' };
 import seriesTypes from './data/types/series_types.data.json' with { type: 'json' };
-import eventTypes from './data/types/events_types.data.json' with { type: 'json' };
+import eventTypes from './data/types/event_types.data.json' with { type: 'json' };
 
-import hashAlgorithmTypes from './data/types/hash_algorithms_types.data.json' with { type: 'json' };
-import roleTypes from './data/types/roles_types.data.json' with { type: 'json' };
-import relationshipTypes from './data/types/relationships_types.data.json' with { type: 'json' };
+import hashAlgorithmTypes from './data/types/hash_algorithm_types.data.json' with { type: 'json' };
+import roleTypes from './data/types/role_types.data.json' with { type: 'json' };
+import relationshipTypes from './data/types/relationship_types.data.json' with { type: 'json' };
 
-import genreTypes from './data/types/genres_types.data.json' with { type: 'json' };
+import genreTypes from './data/types/genre_types.data.json' with { type: 'json' };
 // import subgenresTypes from './data/types/subgenres_types.data.json' with {type: 'json'};
 
 import artistsValues from './data/primary_entities/artists_primary_entities.data.json' with { type: 'json' };

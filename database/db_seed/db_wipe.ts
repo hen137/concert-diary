@@ -39,4 +39,4 @@ export async function dbWipe() {
   db.destroy();
 }
 
-dbWipe();
+await dbWipe();

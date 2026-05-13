@@ -1,7 +1,7 @@
 import type { TableExpressionOrList } from 'kysely';
-import type { DB } from '../../../src/types/database.js';
+import type { DB } from '#src/types/database.js';
 
-import fs from 'fs';
+import fs from 'fs/promises';
 import { db } from '../database.js';
 
 // TODO: extract tables dynamically from types or something else
@@ -39,8 +39,8 @@ export async function wipeTable(table: TableExpressionOrList<DB, never>) {
   await db.deleteFrom(table).execute();
 }
 
-export function jsonFromArray(data: unknown[], dest: string) {
-  fs.writeFileSync(dest, JSON.stringify(data));
+export async function jsonFromArray(data: unknown[], dest: string) {
+  await fs.writeFile(dest, JSON.stringify(data));
 }
 
 export function getTypeValues<
