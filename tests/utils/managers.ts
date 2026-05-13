@@ -1,15 +1,15 @@
 import type { FastifyInstance } from 'fastify';
-import type { Auth, BetterAuthOptions } from 'better-auth';
+import type { Auth, BetterAuthOptions, User } from 'better-auth';
 import type { TestHelpers } from 'better-auth/plugins';
 import type { DB } from '#types/database.js';
 
-import { beforeAll, afterAll } from 'vitest';
+import { beforeAll, afterAll, beforeEach, afterEach } from 'vitest';
 import { Pool } from 'pg';
 import { Kysely, PostgresDialect } from 'kysely';
 import { buildServer } from '#src/server.js';
 
 declare global {
-  var BATest: TestHelpers;
+  var authHeaders: Headers;
 }
 
 declare module 'fastify' {
@@ -19,23 +19,34 @@ declare module 'fastify' {
 }
 
 export function manageServer() {
-  const server: { instance: FastifyInstance | null } = {
+  let testUser: User;
+  const server: {
+    instance: FastifyInstance | null;
+    testHelpers: TestHelpers | null;
+  } = {
     instance: null,
+    testHelpers: null,
   };
 
   beforeAll(async () => {
     server.instance = buildServer({
       fastifyOpts: {
-        logger: false,
+        // logger: false,
+        logger: {
+          level: process.env.LOG_LEVEL!,
+          transport: {
+            target: 'pino-pretty',
+            options: {
+              colorize: true,
+              translateTime: 'HH:MM:ss Z',
+            },
+          },
+        },
       },
     });
     await server.instance.ready(); // Wait for all plugins to be loaded
 
-    // console.log(server.instance.BAConfig)
-
-    if (!globalThis.BATest) {
-      globalThis.BATest = (await server.instance.betterAuth.$context).test;
-    }
+    server.testHelpers = (await server.instance.betterAuth.$context).test;
   });
 
   afterAll(async () => {
@@ -52,6 +63,20 @@ export function manageServer() {
       }
 
       return server.instance;
+    },
+    setAuthHooks: () => {
+      beforeEach(async () => {
+        testUser = server.testHelpers!.createUser();
+        await server.testHelpers!.saveUser(testUser);
+
+        globalThis.authHeaders = await server.testHelpers!.getAuthHeaders({
+          userId: testUser.id,
+        });
+      });
+
+      afterEach(async () => {
+        await server.testHelpers!.deleteUser(testUser.id);
+      });
     },
   };
 }
@@ -81,7 +106,7 @@ export function manageDatabase() {
 
   // Return a closure function so that 'it'/'test' blocks can safely get the initialized database instance
   return {
-    getDb: (): Kysely<DB> => {
+    getDatabase: (): Kysely<DB> => {
       if (!db.instance) {
         throw new Error(
           'Kysely database instance is not available. Ensure getDb() is called within a test case (it/test).'
