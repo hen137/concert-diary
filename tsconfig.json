@@ -1,10 +1,11 @@
 {
-  "include": ["src/**/*", "tests/**/*"],
+  "include": ["src/**/*"],
   "exclude": [
+    ".github",
+    ".husky",
     "node_modules",
     "build",
     "database/db_seed",
-    ".husky",
     "docker",
     "scripts"
   ],
@@ -12,11 +13,13 @@
     "types": ["node"],
     "rootDir": ".",
     "outDir": "./build",
-    // "paths": {
-    //   "db_seed/*": [
-    //     "./db_seed/*"
-    //   ]
-    // },
+    "paths": {
+      "#src/*": ["./src/*"],
+      "#types/*": ["./src/types/*"],
+      "#schemas/*": ["./src/schemas/*"],
+      "#utils/*": ["./src/utils/*"],
+      "#tests/*": ["./tests/*"]
+    },
     "module": "nodenext",
     "target": "ESNext",
     "moduleResolution": "nodenext",
