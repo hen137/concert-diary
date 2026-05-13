@@ -9,14 +9,14 @@ import type {
   IUserData,
   IVenueCursor,
   IVenueData,
-} from '../types/query_data.js';
+} from '#types/query_data.js';
 
 import z from 'zod';
-import { userPageSchema } from '../schemas/users.schema.js';
-import { venuePageSchema } from '../schemas/venues.schema.js';
-import { eventPageSchema } from '../schemas/events.schema.js';
-import { seriesPageSchema } from '../schemas/series.schema.js';
-import { artistPageSchema } from '../schemas/artists.schema.js';
+import { userPageSchema } from '#schemas/users.schema.js';
+import { venuePageSchema } from '#schemas/venues.schema.js';
+import { eventPageSchema } from '#schemas/events.schema.js';
+import { seriesPageSchema } from '#schemas/series.schema.js';
+import { artistPageSchema } from '#schemas/artists.schema.js';
 
 // Cursor & Limit validator
 
@@ -64,7 +64,7 @@ export function validateCursorLimit<Schema extends z.ZodObject>(
  * @returns
  */
 export function formatUsersPayload(
-  cursor: '' | { userId: string; createdAt: Date },
+  cursor: '' | { userId: string },
   limit: number,
   accountData: IUserData[],
   prevAccountData: IUserCursor[]
